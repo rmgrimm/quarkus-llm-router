@@ -48,3 +48,4 @@ nb-configuration.xml
 *.onnx
 
 local
+src/main/resources/application-local.properties
