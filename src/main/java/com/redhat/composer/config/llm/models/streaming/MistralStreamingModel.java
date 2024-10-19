@@ -32,12 +32,12 @@ public class MistralStreamingModel extends StreamingBaseModel {
       MistralAiStreamingChatModelBuilder builder = MistralAiStreamingChatModel.builder();
       builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
       builder.apiKey(request.getApiKey() == null ? mistralDefaultApiKey : request.getApiKey());
-      
+
       builder.modelName(request.getModelName() == null ? mistralDefaultModelName : request.getModelName());
 
       // TODO: Add all the following to the request
       builder.temperature(mistralDefaultTemp);
-      
+
       // Model names can be derived from MistralAiChatModelName enum
       // if (modelName != null) {
       //   builder.modelName(modelName);

@@ -1,6 +1,6 @@
-# Embedding Service Quarkus
+# Quarkus LLM Routing Service
 
-Quarkus version of the existing embedding service.
+Quarkus Service that allows for the routing to different RAG sources and LLMs
 
 ## Architecture
 

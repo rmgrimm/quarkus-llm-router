@@ -7,15 +7,11 @@ import org.neo4j.driver.GraphDatabase;
 
 import com.redhat.composer.config.llm.models.synchronous.SynchronousBaseModel;
 import com.redhat.composer.config.llm.models.synchronous.SynchronousModelFactory;
-import com.redhat.composer.config.retriever.contentRetriever.custom.WeaviateEmbeddingStoreCustom;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
-import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.content.retriever.neo4j.Neo4jContentRetriever;
 import dev.langchain4j.store.graph.neo4j.Neo4jGraph;
 import jakarta.inject.Inject;
