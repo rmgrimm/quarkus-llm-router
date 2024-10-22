@@ -1,7 +1,9 @@
 package com.redhat.composer.config.retriever.contentRetriever;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
+import com.redhat.composer.api.ChatBotAPI;
 import com.redhat.composer.config.retriever.contentRetriever.custom.WeaviateEmbeddingStoreCustom;
 import com.redhat.composer.model.request.RetrieverRequest;
 
@@ -12,6 +14,8 @@ import jakarta.inject.Singleton;
 
 @Singleton
 public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
+
+  Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
 
   @ConfigProperty( name = "weaviate.default.scheme")
   private String weaviateScheme;
@@ -34,6 +38,9 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
     String apiKey = request.getApiKey() != null ? request.getApiKey() : weaviateApiKey;
     String index = request.getIndex() != null ? request.getIndex() : weaviateIndex;
     String textKey = request.getTextKey() != null ? request.getTextKey() : weaviateTextKey;
+
+    
+    log.info("Attempting to connect to Weaviate at " + scheme + "://" + host + " with index " + index);
 
     WeaviateEmbeddingStoreCustom store = WeaviateEmbeddingStoreCustom.builder()
         .scheme(scheme)
