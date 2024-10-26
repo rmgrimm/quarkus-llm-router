@@ -76,7 +76,7 @@ public class ChatBotService {
       .getChatModel(request.getModelRequest());
     
       // TODO: Make this configurable
-    Class<? extends BaseAIService> aiServiceClass = aiServicesFactory.getAiService(AIServicesFactory.HEALTHCARE_SERVICE);
+    Class<? extends BaseAIService> aiServiceClass = aiServicesFactory.getAiService(AIServicesFactory.MISTRAL7B_AI_SERVICE);
 
     BaseAIService aiService = AiServices.builder(aiServiceClass)
         .streamingChatLanguageModel(llm)
@@ -94,8 +94,8 @@ public class ChatBotService {
           em.emit("\n\nSources used to generate this content:\n");
           contentSources.forEach(content -> {
           em.emit(content.textSegment().metadata().getString("source") + "\n");
-          log.info("Chat complete, traceId: " + traceId);
           });
+          log.info("Chat complete, traceId: " + traceId);
           em.complete();
         })
         .start();
