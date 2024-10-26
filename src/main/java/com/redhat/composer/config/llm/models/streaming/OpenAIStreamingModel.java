@@ -1,7 +1,9 @@
 package com.redhat.composer.config.llm.models.streaming;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
+import com.redhat.composer.config.retriever.contentRetriever.WeaviateContentRetrieverClient;
 import com.redhat.composer.model.request.LLMRequest;
 
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
@@ -13,6 +15,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class OpenAIStreamingModel extends StreamingBaseModel {
 
+  Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
 
   @ConfigProperty( name = "openai.default.url")
   private String mistralDefaultUrl;
@@ -28,6 +31,7 @@ public class OpenAIStreamingModel extends StreamingBaseModel {
 
  
   public StreamingChatLanguageModel getChatModel(LLMRequest request) {
+    log.info("Attempting to create OpenAI Streaming Chat Model at: " + request.getUrl() + " with model name: " + request.getModelName());
     OpenAiStreamingChatModelBuilder builder = OpenAiStreamingChatModel.builder();
       builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
       builder.apiKey(request.getApiKey() == null ? mistralDefaultApiKey : request.getApiKey());
