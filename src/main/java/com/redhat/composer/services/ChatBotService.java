@@ -76,7 +76,7 @@ public class ChatBotService {
       .getChatModel(request.getModelRequest());
     
       // TODO: Make this configurable
-    Class<? extends BaseAIService> aiServiceClass = aiServicesFactory.getAiService(AIServicesFactory.HEALTHCARE_SERVICE);
+    Class<? extends BaseAIService> aiServiceClass = aiServicesFactory.getAiService(AIServicesFactory.MISTRAL7B_AI_SERVICE);
 
     BaseAIService aiService = AiServices.builder(aiServiceClass)
         .streamingChatLanguageModel(llm)
