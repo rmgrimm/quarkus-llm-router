@@ -6,9 +6,6 @@ databaseChangeLog:
         name:  rc.rhel.id
         value:  "new ObjectId('66ed89833baf3b4ab30da4e2')"
   -  property:
-        name:  rc.rho2025.id
-        value:  "new ObjectId('66ed89866a4bb5288a49c7bf')"
-  -  property:
         name:  rc.ansible.id
         value:  "new ObjectId('66ed8cb7bfed0c6c6d324dc6')"
   -  property:
@@ -31,19 +28,16 @@ databaseChangeLog:
             collectionName: retriever_connection
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ocp.id}, index: 'Openshift_container_platform_en_US_4_15', name: 'ocp_4_15_default' , description: 'Openshift Container Platform Default Connection'}"
+            document: "{_id: ${rc.ocp.id}, index: 'Openshift_container_platform_en_US_4_17', name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection'}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rhel.id}, index: 'Red_hat_enterprise_linux_en_US_7', name: 'rhel_7_default' , description: 'Red Hat Enterprise Linux 7 Default Connection'}"
+            document: "{_id: ${rc.rhel.id}, index: 'Red_hat_enterprise_linux_en_US_9', name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection'}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rho2025.id}, index: 'Red_hat_one_2025_faqs', name: 'rho_2025_faqs_default' , description: 'Red Hat Enterprise Linux 2025 Default FAQs Connection'}"
+            document: "{_id: ${rc.ansible.id}, index: 'Red_hat_ansible_automation_platform_en_US_2_5', name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection'}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ansible.id}, index: 'Red_hat_ansible_automation_platform_en_US_2_4', name: 'ansible_2_4_default' , description: 'Ansible Automation Platform 2.4 Default Connection'}"
-        - insertOne:
-            collectionName: retriever_connection
-            document: "{_id: ${rc.rhoai.id}, index: 'Red_hat_openshift_ai_self_managed_en_US_2_10', name: 'rhoia_2_10_default' , description: 'Red Hat Openshift AI Self Managed 2.10 Default Connection'}"
+            document: "{_id: ${rc.rhoai.id}, index: 'Red_hat_openshift_ai_self_managed_en_US_2_14', name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection'}"
 
         # Create LLM Connection collection
         - createCollection:
@@ -62,9 +56,6 @@ databaseChangeLog:
         - insertOne:
             collectionName: assistant
             document: "{_id: new ObjectId('66edae19c9a1bd1c8905b865'), retrieverConnectionId: ${rc.rhel.id}, llmConnectionId: ${llm.default.id}, name: 'default_rhel' , displayName: 'Default Red Hat Enterprise Linux Assistant'}"
-        - insertOne:
-            collectionName: assistant
-            document: "{_id: new ObjectId('66edae1cb297852a63013f29'), retrieverConnectionId: ${rc.rho2025.id}, llmConnectionId: ${llm.default.id}, name: 'default_rho_2025_faq' , displayName: 'Default Red Hat One 2025 FAQs Assistant'}"
         - insertOne:
             collectionName: assistant
             document: "{_id: new ObjectId('66edae2255ce9f7058f2c472'), retrieverConnectionId: ${rc.ansible.id}, llmConnectionId: ${llm.default.id}, name: 'default_ansible' , displayName: 'Default Ansible Automation Platform Assistant'}"
