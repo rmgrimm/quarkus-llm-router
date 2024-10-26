@@ -19,6 +19,7 @@ import com.redhat.composer.util.MapperUtil;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.service.AiServices;
+import io.opentelemetry.api.trace.Span;
 import io.quarkus.runtime.util.StringUtil;
 import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -66,7 +67,8 @@ public class ChatBotService {
 
   public Multi<String> chat(ChatBotRequest request) {
 
-    log.info("ChatBotService.chat: " + request);
+    String traceId = Span.current().getSpanContext().getTraceId();
+    log.info("ChatBotService.chat for message: " + request.getMessage() + " traceId: " + traceId);
     
     validateRequest(request);
 
@@ -92,8 +94,10 @@ public class ChatBotService {
           em.emit("\n\nSources used to generate this content:\n");
           contentSources.forEach(content -> {
           em.emit(content.textSegment().metadata().getString("source") + "\n");
+          log.info("Chat complete, traceId: " + traceId);
           });
-          em.complete();})
+          em.complete();
+        })
         .start();
         });
       return multi;
