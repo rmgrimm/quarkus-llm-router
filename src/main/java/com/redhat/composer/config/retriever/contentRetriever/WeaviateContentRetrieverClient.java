@@ -3,9 +3,9 @@ package com.redhat.composer.config.retriever.contentRetriever;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.api.ChatBotAPI;
 import com.redhat.composer.config.retriever.contentRetriever.custom.WeaviateEmbeddingStoreCustom;
 import com.redhat.composer.model.request.RetrieverRequest;
+import com.redhat.composer.model.request.retriever.WeaviateRequest;
 
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -33,11 +33,15 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
   private String weaviateTextKey;
 
   public ContentRetriever getContentRetriever(RetrieverRequest request) {
-    String scheme = request.getScheme() != null ? request.getScheme() : weaviateScheme;
-    String host = request.getHost() != null ? request.getHost() : weaviateHost;
-    String apiKey = request.getApiKey() != null ? request.getApiKey() : weaviateApiKey;
-    String index = request.getIndex() != null ? request.getIndex() : weaviateIndex;
-    String textKey = request.getTextKey() != null ? request.getTextKey() : weaviateTextKey;
+    WeaviateRequest weaviateRequest = (WeaviateRequest) request.getBaseRetrieverRequest();
+    if(weaviateRequest == null) {
+      weaviateRequest = new WeaviateRequest();
+    }
+    String scheme = weaviateRequest.getScheme() != null ? weaviateRequest.getScheme() : weaviateScheme;
+    String host = weaviateRequest.getHost() != null ? weaviateRequest.getHost() : weaviateHost;
+    String apiKey = weaviateRequest.getApiKey() != null ? weaviateRequest.getApiKey() : weaviateApiKey;
+    String index = weaviateRequest.getIndex() != null ? weaviateRequest.getIndex() : weaviateIndex;
+    String textKey = weaviateRequest.getTextKey() != null ? weaviateRequest.getTextKey() : weaviateTextKey;
 
     
     log.info("Attempting to connect to Weaviate at " + scheme + "://" + host + " with index " + index);
@@ -47,7 +51,7 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
         .host(host)
         .apiKey(apiKey)
         .metadataParentKey("")
-        .metadataKeys(request.getMetadataFields())
+        .metadataKeys(weaviateRequest.getMetadataFields())
         .objectClass(index)
         .avoidDups(true)
         .textKey(textKey)

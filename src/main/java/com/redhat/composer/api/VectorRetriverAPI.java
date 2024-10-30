@@ -6,8 +6,9 @@ import java.util.Map;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.SourceResponse;
 import com.redhat.composer.services.RetrieveService;
-import com.redhat.composer.util.MapperUtil;
+import com.redhat.composer.util.mappers.MapperUtil;
 
+import dev.langchain4j.rag.content.Content;
 import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
@@ -24,10 +25,13 @@ public class VectorRetriverAPI {
   @Inject
   RetrieveService retrieveService;
 
+  @Inject
+  MapperUtil mapperUtil;
+
   @POST
   @Path("/sources")
   public List<SourceResponse> retrieveSources(RetrieverRequest request, @QueryParam("message") String message) {
-      return retrieveService.retrieveContent(request, message).stream().map(MapperUtil::toSourceResponse).toList();
+      return retrieveService.retrieveContent(request, message).stream().map(VectorRetriverAPI::toSourceResponse).toList();
   }
 
   @POST
@@ -39,7 +43,11 @@ public class VectorRetriverAPI {
         .toList();
   }
 
-
-
+  public static SourceResponse toSourceResponse(Content content) {
+    SourceResponse response = new SourceResponse();
+    response.setContent(content.textSegment().text());
+    response.setMetadata(content.textSegment().metadata().toMap());
+    return response;
+  }
 
 }

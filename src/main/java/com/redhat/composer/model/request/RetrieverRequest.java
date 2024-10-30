@@ -1,52 +1,35 @@
 package com.redhat.composer.model.request;
 
-import java.util.List;
+import com.redhat.composer.model.request.retriever.BaseRetrieverRequest;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import com.redhat.composer.config.retriever.contentRetriever.ContentRetrieverClientFactory;
-import com.redhat.composer.config.retriever.embeddingModel.EmbeddingModelFactory;
-
 public class RetrieverRequest  {
   
-  String contentRetrieverType;
+  BaseRetrieverRequest baseRetrieverRequest;
   String embeddingType;
 
-  // Key of the value containing the text used for retrieval and passed into the LLM
-  String textKey;
+  String name;
+  String description;
 
-  // List of metadata fields to be retrieved as part of the content
-  List<String> metadataFields = List.of("source");
-
-  String index;
-
-  String scheme;
-
-  String host;
-
-  String apiKey;
 
   public RetrieverRequest() {
   }
 
-  public RetrieverRequest(String contentRetrieverType, String embeddingType, String textKey, List<String> metadataFields, String index, String scheme, String host, String apiKey) {
-    this.contentRetrieverType = contentRetrieverType;
+  public RetrieverRequest(BaseRetrieverRequest baseRetrieverRequest, String embeddingType, String name, String description) {
+    this.baseRetrieverRequest = baseRetrieverRequest;
     this.embeddingType = embeddingType;
-    this.textKey = textKey;
-    this.metadataFields = metadataFields;
-    this.index = index;
-    this.scheme = scheme;
-    this.host = host;
-    this.apiKey = apiKey;
+    this.name = name;
+    this.description = description;
   }
 
-  public String getContentRetrieverType() {
-    return this.contentRetrieverType;
+  public BaseRetrieverRequest getBaseRetrieverRequest() {
+    return this.baseRetrieverRequest;
   }
 
-  public void setContentRetrieverType(String contentRetrieverType) {
-    this.contentRetrieverType = contentRetrieverType;
+  public void setBaseRetrieverRequest(BaseRetrieverRequest baseRetrieverRequest) {
+    this.baseRetrieverRequest = baseRetrieverRequest;
   }
 
   public String getEmbeddingType() {
@@ -57,56 +40,24 @@ public class RetrieverRequest  {
     this.embeddingType = embeddingType;
   }
 
-  public String getTextKey() {
-    return this.textKey;
+  public String getName() {
+    return this.name;
   }
 
-  public void setTextKey(String textKey) {
-    this.textKey = textKey;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public List<String> getMetadataFields() {
-    return this.metadataFields;
+  public String getDescription() {
+    return this.description;
   }
 
-  public void setMetadataFields(List<String> metadataFields) {
-    this.metadataFields = metadataFields;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
-  public String getIndex() {
-    return this.index;
-  }
-
-  public void setIndex(String index) {
-    this.index = index;
-  }
-
-  public String getScheme() {
-    return this.scheme;
-  }
-
-  public void setScheme(String scheme) {
-    this.scheme = scheme;
-  }
-
-  public String getHost() {
-    return this.host;
-  }
-
-  public void setHost(String host) {
-    this.host = host;
-  }
-
-  public String getApiKey() {
-    return this.apiKey;
-  }
-
-  public void setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-  }
-
-  public RetrieverRequest contentRetrieverType(String contentRetrieverType) {
-    setContentRetrieverType(contentRetrieverType);
+  public RetrieverRequest baseRetrieverRequest(BaseRetrieverRequest baseRetrieverRequest) {
+    setBaseRetrieverRequest(baseRetrieverRequest);
     return this;
   }
 
@@ -115,33 +66,13 @@ public class RetrieverRequest  {
     return this;
   }
 
-  public RetrieverRequest textKey(String textKey) {
-    setTextKey(textKey);
+  public RetrieverRequest name(String name) {
+    setName(name);
     return this;
   }
 
-  public RetrieverRequest metadataFields(List<String> metadataFields) {
-    setMetadataFields(metadataFields);
-    return this;
-  }
-
-  public RetrieverRequest index(String index) {
-    setIndex(index);
-    return this;
-  }
-
-  public RetrieverRequest scheme(String scheme) {
-    setScheme(scheme);
-    return this;
-  }
-
-  public RetrieverRequest host(String host) {
-    setHost(host);
-    return this;
-  }
-
-  public RetrieverRequest apiKey(String apiKey) {
-    setApiKey(apiKey);
+  public RetrieverRequest description(String description) {
+    setDescription(description);
     return this;
   }
 
@@ -152,22 +83,18 @@ public class RetrieverRequest  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(contentRetrieverType, embeddingType, textKey, metadataFields, index, scheme, host, apiKey);
+    return Objects.hash(baseRetrieverRequest, embeddingType, name, description);
   }
 
   @Override
   public String toString() {
     return "{" +
-      " contentRetrieverType='" + getContentRetrieverType() + "'" +
+      " baseRetrieverRequest='" + getBaseRetrieverRequest() + "'" +
       ", embeddingType='" + getEmbeddingType() + "'" +
-      ", textKey='" + getTextKey() + "'" +
-      ", metadataFields='" + getMetadataFields() + "'" +
-      ", index='" + getIndex() + "'" +
-      ", scheme='" + getScheme() + "'" +
-      ", host='" + getHost() + "'" +
-      ", apiKey='" + getApiKey() + "'" +
+      ", name='" + getName() + "'" +
+      ", description='" + getDescription() + "'" +
       "}";
   }
-  
+
   
 }

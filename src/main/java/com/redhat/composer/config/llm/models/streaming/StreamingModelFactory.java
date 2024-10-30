@@ -7,10 +7,6 @@ import jakarta.inject.Inject;
 public class StreamingModelFactory {
 
   @Inject
-  MistralStreamingModel mistralModel;
-  public static final String MISTRAL_MODEL = "mistral";
-
-  @Inject
   OpenAIStreamingModel openAIModel;
   public static final String OPENAI_MODEL = "openai";
 
@@ -23,8 +19,6 @@ public class StreamingModelFactory {
     }
     
     switch (modelType) {
-      case MISTRAL_MODEL:
-        return mistralModel;
       case OPENAI_MODEL:
         return openAIModel;
       default:

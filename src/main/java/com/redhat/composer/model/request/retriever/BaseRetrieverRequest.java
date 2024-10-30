@@ -1,0 +1,42 @@
+package com.redhat.composer.model.request.retriever;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "contentRetrieverType", visible = true)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = WeaviateRequest.class, name = "weaviate"),
+    @JsonSubTypes.Type(value = Neo4JRequest.class, name = "neo4j")
+})
+public class BaseRetrieverRequest {
+
+  String contentRetrieverType;
+
+
+  public BaseRetrieverRequest() {
+  }
+
+  public BaseRetrieverRequest(String contentRetrieverType) {
+    this.contentRetrieverType = contentRetrieverType;
+  }
+
+  public String getContentRetrieverType() {
+    return this.contentRetrieverType;
+  }
+
+  public void setContentRetrieverType(String contentRetrieverType) {
+    this.contentRetrieverType = contentRetrieverType;
+  }
+
+  public BaseRetrieverRequest contentRetrieverType(String contentRetrieverType) {
+    setContentRetrieverType(contentRetrieverType);
+    return this;
+  }
+
+  @Override
+    public boolean equals(Object o) {
+      return EqualsBuilder.reflectionEquals(this, o);
+  }
+}

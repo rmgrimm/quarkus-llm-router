@@ -28,16 +28,16 @@ databaseChangeLog:
             collectionName: retriever_connection
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ocp.id}, index: 'Openshift_container_platform_en_US_4_17', name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection'}"
+            document: "{_id: ${rc.ocp.id}, name: 'ocp_4_17_default' , description: 'Openshift Container Platform Default Connection', 'connectionEntity': { '_t': 'weaviate', 'index': 'Openshift_container_platform_en_US_4_17'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rhel.id}, index: 'Red_hat_enterprise_linux_en_US_9', name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection'}"
+            document: "{_id: ${rc.rhel.id}, name: 'rhel_9_default' , description: 'Red Hat Enterprise Linux 9 Default Connection', 'connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_enterprise_linux_en_US_9'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.ansible.id}, index: 'Red_hat_ansible_automation_platform_en_US_2_5', name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection'}"
+            document: "{_id: ${rc.ansible.id}, name: 'ansible_2_5_default' , description: 'Ansible Automation Platform 2.5 Default Connection''connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_ansible_automation_platform_en_US_2_5'}}"
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${rc.rhoai.id}, index: 'Red_hat_openshift_ai_self_managed_en_US_2_14', name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection'}"
+            document: "{_id: ${rc.rhoai.id}, name: 'rhoia_2_14_default' , description: 'Red Hat Openshift AI Self Managed 2.14 Default Connection''connectionEntity': { '_t': 'weaviate', 'index': 'Red_hat_openshift_ai_self_managed_en_US_2_14'}}"
 
         # Create LLM Connection collection
         - createCollection:
@@ -80,7 +80,7 @@ databaseChangeLog:
             collectionName: retriever_connection
         - insertOne:
             collectionName: retriever_connection
-            document: "{_id: ${neo4j.default.id}, name: 'neo4j_default' , description: 'Neo4j Default Connection', contentRetrieverType: 'neo4j'}"
+            document: "{_id: ${neo4j.default.id}, name: 'neo4j_default' , description: 'Neo4j Default Connection', 'connectionEntity': { '_t': 'neo4j'}}"
 
         # Create Assistants collection
         - createCollection:

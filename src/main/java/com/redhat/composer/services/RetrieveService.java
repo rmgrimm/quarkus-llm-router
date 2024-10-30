@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.redhat.composer.config.retriever.contentRetriever.BaseContentRetrieverClient;
 import com.redhat.composer.config.retriever.contentRetriever.ContentRetrieverClientFactory;
+import com.redhat.composer.model.enums.ContentRetrieverType;
 import com.redhat.composer.model.request.RetrieverRequest;
 
 import dev.langchain4j.rag.content.Content;
@@ -19,7 +20,8 @@ public class RetrieveService {
   ContentRetrieverClientFactory contentRetrieverClientFactory;
 
   public ContentRetriever getContentRetriever(RetrieverRequest request) {
-    BaseContentRetrieverClient client = contentRetrieverClientFactory.getContentRetrieverClient(request.getContentRetrieverType());
+    ContentRetrieverType contentRetrieverType = ContentRetrieverType.fromString(request.getBaseRetrieverRequest().getContentRetrieverType());
+    BaseContentRetrieverClient client = contentRetrieverClientFactory.getContentRetrieverClient(contentRetrieverType); //TODO: Fix this
     return client.getContentRetriever(request);
 
   }

@@ -7,10 +7,6 @@ import jakarta.inject.Inject;
 public class SynchronousModelFactory {
 
   @Inject
-  MistralModel mistralModel;
-  public static final String MISTRAL_MODEL = "mistral";
-
-  @Inject
   OpenAIModel openAIModel;
   public static final String OPENAI_MODEL = "openai";
   
@@ -23,8 +19,6 @@ public class SynchronousModelFactory {
     }
     
     switch (modelType) {
-      case MISTRAL_MODEL:
-        return mistralModel;
       case OPENAI_MODEL:
         return openAIModel;
       default:

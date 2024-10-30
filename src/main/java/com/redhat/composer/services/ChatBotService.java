@@ -14,7 +14,7 @@ import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.request.AssistantChatRequest;
 import com.redhat.composer.model.request.ChatBotRequest;
 import com.redhat.composer.repositories.AssistantRepository;
-import com.redhat.composer.util.MapperUtil;
+import com.redhat.composer.util.mappers.MapperUtil;
 
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.rag.content.Content;
@@ -42,6 +42,9 @@ public class ChatBotService {
   @Inject
   AssistantRepository assistantRepository;
 
+  @Inject
+  MapperUtil mapperUtil;
+
 
   public Multi<String> chat(AssistantChatRequest request) {
     
@@ -59,8 +62,8 @@ public class ChatBotService {
     ChatBotRequest chatBotRequest = new ChatBotRequest();
     chatBotRequest.setMessage(request.getMessage());
     chatBotRequest.setContext(request.getContext());
-    chatBotRequest.setRetrieverRequest(MapperUtil.toRetrieverRequest(retrieverConnection));
-    chatBotRequest.setModelRequest(MapperUtil.toLLMRequest(llmConnection));
+    chatBotRequest.setRetrieverRequest(mapperUtil.toRequest(retrieverConnection));
+    chatBotRequest.setModelRequest(mapperUtil.toRequest(llmConnection));
 
     return chat(chatBotRequest);
   }

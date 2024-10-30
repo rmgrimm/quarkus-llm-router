@@ -1,5 +1,7 @@
 package com.redhat.composer.config.retriever.contentRetriever;
 
+import com.redhat.composer.model.enums.ContentRetrieverType;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -8,26 +10,24 @@ public class ContentRetrieverClientFactory {
 
   @Inject
   WeaviateContentRetrieverClient weaviateEmbeddingStoreClient;
-  public static final String WEAVIATE_CONTENT_RETRIEVER = "weaviate";
-
+  
   @Inject
   Neo4jContentRetrieverClient neo4jContentRetrieverClient;
-  public static final String NEO4J_CONTENT_RETRIEVER = "neo4j";
   
-  final static String DEFAULT_CONTENT_RETRIEVER = WEAVIATE_CONTENT_RETRIEVER;
+  final static ContentRetrieverType DEFAULT_CONTENT_RETRIEVER = ContentRetrieverType.WEAVIATE;
 
-  public BaseContentRetrieverClient getContentRetrieverClient(String contentRetrieverType) {
+  public BaseContentRetrieverClient getContentRetrieverClient(ContentRetrieverType contentRetrieverType) {
     if(contentRetrieverType == null) {
       contentRetrieverType = DEFAULT_CONTENT_RETRIEVER;
     }
     
     switch (contentRetrieverType) {
-      case WEAVIATE_CONTENT_RETRIEVER:
+      case ContentRetrieverType.WEAVIATE:
         return weaviateEmbeddingStoreClient;
-      case NEO4J_CONTENT_RETRIEVER:
+      case ContentRetrieverType.NEO4J:
         return neo4jContentRetrieverClient;
       default:
-        throw new RuntimeException("Embedding type not found: " + contentRetrieverType);
+        throw new RuntimeException("Content Retriever type not found: " + contentRetrieverType);
     }
   }
   

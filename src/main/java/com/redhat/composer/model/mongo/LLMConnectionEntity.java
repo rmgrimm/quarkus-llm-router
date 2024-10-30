@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
-
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
 @MongoEntity(collection = "llm_connection")

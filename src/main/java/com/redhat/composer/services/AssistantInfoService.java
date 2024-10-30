@@ -10,14 +10,19 @@ import com.redhat.composer.model.request.AssistantCreationRequest;
 import com.redhat.composer.model.request.LLMRequest;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.AssistantResponse;
+import com.redhat.composer.util.mappers.MapperUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 // TODO: Set up MapStruct service or something
 // https://mapstruct.org/
 
 @ApplicationScoped
 public class AssistantInfoService {
+
+  @Inject
+  MapperUtil mapperUtil;
 
   public AssistantEntity createAssistant(AssistantCreationRequest request) {
     
@@ -49,16 +54,8 @@ public class AssistantInfoService {
     ).toList();
   }
 
-  public RetrieverConnectionEntity creaRetrieverConnectionEntity(RetrieverRequest request) {
-    RetrieverConnectionEntity entity = new RetrieverConnectionEntity();
-    entity.setContentRetrieverType(request.getContentRetrieverType());
-    entity.setEmbeddingType(request.getEmbeddingType());
-    entity.setHost(request.getHost());
-    entity.setApiKey(request.getApiKey());
-    entity.setIndex(request.getIndex());
-    entity.setMetadataFields(request.getMetadataFields());
-    entity.setTextKey(request.getTextKey());
-    entity.setScheme(request.getScheme());
+  public RetrieverConnectionEntity createRetrieverConnectionEntity(RetrieverRequest request) {
+    RetrieverConnectionEntity entity = mapperUtil.toEntity(request);
     entity.persist();
     return entity;
   }

@@ -39,7 +39,7 @@ public class AssistantAdminAPI {
   @POST
   @Path("retrieverConnection")
   public RetrieverConnectionEntity createRetrieverConnection(RetrieverRequest request) {
-    return assistantService.creaRetrieverConnectionEntity(request);
+    return assistantService.createRetrieverConnectionEntity(request);
   }
 
   @GET
