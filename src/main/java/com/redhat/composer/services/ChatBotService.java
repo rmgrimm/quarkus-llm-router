@@ -77,7 +77,6 @@ public class ChatBotService {
 
     String traceId = Span.current().getSpanContext().getTraceId();
     log.info("ChatBotService.chat for message: " + request.getMessage() + " traceId: " + traceId);
-    log.info(request.getRetrieverRequest().toString());
     validateRequest(request);
 
     StreamingChatLanguageModel llm = modelTemplateFactory.getModel(request.getModelRequest().getModelType())
