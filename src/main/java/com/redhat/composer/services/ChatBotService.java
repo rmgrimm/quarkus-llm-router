@@ -96,11 +96,11 @@ public class ChatBotService {
         .onNext(em::emit)
         .onRetrieved(sources -> {
           try {
+            em.emit("START_SOURCES_STRING\n");
             em.emit(objectMapper.writeValueAsString(new ContentResponse(sources)));
             em.emit("\nEND_SOURCES_STRING\n");
           } catch (JsonProcessingException e) {
             log.error("Sources not processable: %e", e);
-            e.printStackTrace();
           }
         })
         .onError(em::fail)
