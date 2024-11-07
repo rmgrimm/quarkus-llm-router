@@ -80,11 +80,17 @@ public class ChatBotService {
     
       // TODO: Make this configurable
     Class<? extends BaseAIService> aiServiceClass = aiServicesFactory.getAiService(AIServicesFactory.MISTRAL7B_AI_SERVICE);
+    
+    AiServices<? extends BaseAIService> builder = AiServices.builder(aiServiceClass)
+        .streamingChatLanguageModel(llm);
 
-    BaseAIService aiService = AiServices.builder(aiServiceClass)
-        .streamingChatLanguageModel(llm)
-        .contentRetriever(ragService.getContentRetriever(request.getRetrieverRequest()))
-      .build();
+    if(request.getRetrieverRequest() != null) {
+        builder.contentRetriever(ragService.getContentRetriever(request.getRetrieverRequest()));
+    }
+
+    BaseAIService aiService = builder.build();
+
+    
 
     try {
       Multi<String> multi = Multi.createFrom().emitter(em -> {

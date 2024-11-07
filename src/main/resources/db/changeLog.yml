@@ -88,3 +88,16 @@ databaseChangeLog:
         - insertOne:
             collectionName: assistant
             document: "{_id: new ObjectId('66f3fc14de104310e21acd67'), retrieverConnectionId: ${neo4j.default.id}, llmConnectionId: ${llm.default.id}, name: 'default_neo4j', displayName: 'Default Neo4J Assistant'}"
+
+  # Create default assistant just using the default LLM connection
+  - changeSet:
+      id: 4
+      author: quarkus
+      labels: llmDefaultAssistant
+      context: createLLMDefaultAssistant
+      comment: Creates a default assistant that uses the default LLM connection
+      changes:
+        # Create Assistants collection
+        - insertOne:
+            collectionName: assistant
+            document: "{_id: new ObjectId('672c1da8cc502c4c6ccad746'), llmConnectionId: ${llm.default.id}, name: 'default_assistant', displayName: 'Default Assistant'}"
