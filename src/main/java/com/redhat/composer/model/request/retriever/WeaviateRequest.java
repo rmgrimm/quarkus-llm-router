@@ -15,7 +15,7 @@ public class WeaviateRequest extends BaseRetrieverRequest {
   String textKey;
 
   // List of metadata fields to be retrieved as part of the content
-  List<String> metadataFields = List.of("source");
+  List<String> metadataFields = List.of("source","title");
 
   String index;
 
