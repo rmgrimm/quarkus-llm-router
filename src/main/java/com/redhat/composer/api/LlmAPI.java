@@ -25,6 +25,7 @@ import jakarta.ws.rs.core.MediaType;
  * Api For Testing Embedding
  */
 @Path("/llm")
+@Authenticated
 public class LlmAPI {
 
   Logger log = Logger.getLogger(LlmAPI.class);
@@ -37,7 +38,6 @@ public class LlmAPI {
 
   @POST
   @Path("/generate")
-  @Authenticated
   public String syncRequest(LLMRequest request, @QueryParam("message") String message) {
     log.info("Generating response for message: " + message);
     if (request == null) {

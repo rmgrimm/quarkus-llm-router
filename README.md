@@ -93,9 +93,34 @@ The following curl command should return a streaming output answering based on t
 
 > Note: There are endpoint for testing each of the specific components
 
+### Testing Authentication Locally
+
+Authentication has been implemented in the project, but is disabled by default.  To turn authentication on, set the environment variable `DISABLE_AUTHENTICATION` to `false`.  
+
+Quarkus devservices provides the ability to run a local instance of keycloak with a provided configuration.  The following property has been added to trigger a keycloak container configured from the file at `config/quarkus-realm.json`:
+```
+quarkus.keycloak.devservices.realm-path=quarkus-realm.json
+```
+Alternatively, if running in jvm mode a docker container can be created manually.  See https://quarkus.io/guides/security-keycloak-authorization#starting-and-configuring-the-keycloak-server.
+
+
+When calling endpoints, all calls will now return a 401.  To authenticate, a token is now required.  Retrieve a token from keycloak, as a bearer token.
+
+**NOTE:** keycloak gets a random port, so use `docker ps` to see which port was assigned.
+
+```
+export access_token=$(\                                                                                                              curl --insecure -X POST http://localhost:32847/realms/quarkus/protocol/openid-connect/token \
+    --user backend-service:secret \
+    -H 'content-type: application/x-www-form-urlencoded' \
+    -d 'username=alice&password=alice&grant_type=password' | jq --raw-output '.access_token' \
+ )
+
+curl -v --location 'http://localhost:8080/chatbot/chat/streaming' --header 'Content-Type: application/json' -H 'Authorization: Bearer '$access_token --data '  {"message": "How do I reboot a node?"}'
+```
+
 ## Embedding Model
 
-IMPORTANT: The embedding modes is to large to check into our repo. So you need to download from the following link and put it in `resources/embedding/nomic`.
+IMPORTANT: The embedding modes is too large to check into our repo. So you need to download from the following link and put it in `resources/embedding/nomic`.
 
 https://drive.google.com/drive/folders/1jZe0cEw8p_E-fghd6IFPjwiabDNAhtp7?usp=drive_link
 
