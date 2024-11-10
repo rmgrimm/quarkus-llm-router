@@ -17,7 +17,7 @@ Backend includes the ability to dynamically create Assistants, Rag Connections, 
     "host": "my-weaviate-instance.svc:8080",
     "apiKey" : "ABCDE12345"
   },
-  "embeddingType": "noimc",
+  "embeddingType": "nomic",
   "name": "Example Rag Connection",
   "description": "Example of a rag connection"
 }

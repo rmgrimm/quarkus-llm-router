@@ -8,6 +8,9 @@ import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
 
 public class LLMRequest {
 
+  private String name;
+  private String description;
+
   private String modelType = StreamingModelFactory.DEFAULT_MODEL;
   
   private String url;
@@ -18,11 +21,29 @@ public class LLMRequest {
   public LLMRequest() {
   }
 
-  public LLMRequest(String modelType, String url, String apiKey, String modelName) {
+  public LLMRequest(String name, String description, String modelType, String url, String apiKey, String modelName) {
+    this.name = name;
+    this.description = description;
     this.modelType = modelType;
     this.url = url;
     this.apiKey = apiKey;
     this.modelName = modelName;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getModelType() {
@@ -57,6 +78,16 @@ public class LLMRequest {
     this.modelName = modelName;
   }
 
+  public LLMRequest name(String name) {
+    setName(name);
+    return this;
+  }
+
+  public LLMRequest description(String description) {
+    setDescription(description);
+    return this;
+  }
+
   public LLMRequest modelType(String modelType) {
     setModelType(modelType);
     return this;
@@ -84,18 +115,19 @@ public class LLMRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(modelType, url, apiKey, modelName);
+    return Objects.hash(name, description, modelType, url, apiKey, modelName);
   }
 
   @Override
   public String toString() {
     return "{" +
-      " modelType='" + getModelType() + "'" +
+      " name='" + getName() + "'" +
+      ", description='" + getDescription() + "'" +
+      ", modelType='" + getModelType() + "'" +
       ", url='" + getUrl() + "'" +
       ", apiKey='" + getApiKey() + "'" +
       ", modelName='" + getModelName() + "'" +
       "}";
   }
-
 
 }

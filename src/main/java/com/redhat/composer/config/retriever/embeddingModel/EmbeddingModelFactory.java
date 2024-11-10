@@ -9,7 +9,7 @@ public class EmbeddingModelFactory {
 
   @Inject
   NomicLocalEmbeddingModelClient nomicEmbeddingClient;
-  public static final String NOMIC_EMBEDDING = "noimc";
+  public static final String NOMIC_EMBEDDING = "nomic";
 
   public static final String DEFAULT_EMBEDDING = NOMIC_EMBEDDING;
 

@@ -66,6 +66,8 @@ public class AssistantInfoService {
 
   public LLMConnectionEntity createLLMConnection(LLMRequest request) {
     LLMConnectionEntity entity = new LLMConnectionEntity();
+    entity.setName(request.getName());
+    entity.setDescription(request.getDescription());
     entity.setUrl(request.getUrl());
     entity.setApiKey(request.getApiKey());
     entity.setModelName(request.getModelName());
