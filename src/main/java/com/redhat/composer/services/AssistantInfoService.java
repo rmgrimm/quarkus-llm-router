@@ -3,6 +3,8 @@ package com.redhat.composer.services;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.bson.types.ObjectId;
+
 import com.redhat.composer.model.mongo.AssistantEntity;
 import com.redhat.composer.model.mongo.LLMConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
@@ -25,16 +27,17 @@ public class AssistantInfoService {
   MapperUtil mapperUtil;
 
   public AssistantEntity createAssistant(AssistantCreationRequest request) {
-    
-    LLMConnectionEntity llm = (LLMConnectionEntity) LLMConnectionEntity.findByIdOptional(request.getLlmConnectionId()).orElseThrow(() -> new IllegalArgumentException("LLM Connection not found"));
-    RetrieverConnectionEntity retriever = (RetrieverConnectionEntity) RetrieverConnectionEntity.findByIdOptional(request.getRetrieverConnectionId()).orElseThrow(() -> new IllegalArgumentException("Retriever Connection not found"));
-    
     AssistantEntity assistant = new AssistantEntity();
+    
+    LLMConnectionEntity llm = (LLMConnectionEntity) LLMConnectionEntity.findByIdOptional(new ObjectId(request.getLlmConnectionId())).orElseThrow(() -> new IllegalArgumentException("LLM Connection not found"));
+    if (request.getRetrieverConnectionId() != null) {    
+      RetrieverConnectionEntity retriever = (RetrieverConnectionEntity) RetrieverConnectionEntity.findByIdOptional(new ObjectId(request.getRetrieverConnectionId())).orElseThrow(() -> new IllegalArgumentException("Retriever Connection not found"));
+      assistant.setRetrieverConnectionId(retriever.id);
+    }
     assistant.setName(request.getName());
     assistant.setDisplayName(request.getDisplayName());
     assistant.setDescription(request.getDescription());
     assistant.setLlmConnectionId(llm.id);
-    assistant.setRetrieverConnectionId(retriever.id);
     assistant.persist();
     return assistant;
   }
