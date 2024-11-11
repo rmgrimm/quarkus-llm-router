@@ -50,11 +50,12 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
         .scheme(scheme)
         .host(host)
         .apiKey(apiKey)
-        .metadataParentKey("")
+        .metadataFieldName("")
+        // .metadataFieldName(null)
         .metadataKeys(weaviateRequest.getMetadataFields())
         .objectClass(index)
         .avoidDups(true)
-        .textKey(textKey)
+        .textFieldName(textKey)
       .build();
       
 

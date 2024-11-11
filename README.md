@@ -101,6 +101,12 @@ https://drive.google.com/drive/folders/1jZe0cEw8p_E-fghd6IFPjwiabDNAhtp7?usp=dri
 
 We need to figure out a better way to handel this in the future (or put this on github)
 
-## Tech Debt
+## Code Standards
 
-Figure out better secret management
+### OWasp Security Scanning
+
+The [OWASP Dependency-Check Plugin](https://owasp.org/www-project-dependency-check/) can be run using the following command:
+
+```sh
+mvn validate -P security-scanner
+```

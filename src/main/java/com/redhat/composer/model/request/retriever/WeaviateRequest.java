@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.redhat.composer.model.enums.ContentRetrieverType;
 
 public class WeaviateRequest extends BaseRetrieverRequest {
