@@ -13,21 +13,28 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * ChatBotAPI for Chatting using ChatBots.
+ */
 @Path("/chatbot/chat")
 @Authenticated
-public class ChatBotAPI {
+public class ChatBotApi {
 
-  Logger log = Logger.getLogger(ChatBotAPI.class);
+  Logger log = Logger.getLogger(ChatBotApi.class);
 
   @Inject
   ChatBotService chatBotService;
 
-
+  /**
+   * Chat with a ChatBot.
+   * @param input ChatBotRequest infromation
+   * @return Streamed response
+   */
   @POST
   @Path("streaming")
   @Consumes(MediaType.APPLICATION_JSON)
   public Multi<String> chat(ChatBotRequest input) {
-     return chatBotService.chat(input);
+    return chatBotService.chat(input);
   }
 
 }

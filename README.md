@@ -103,6 +103,10 @@ We need to figure out a better way to handel this in the future (or put this on 
 
 ## Code Standards
 
+### CheckStyle Linting
+
+Linting is does using checkstyle and a slightly modified version of the [Google Java Style guide](https://google.github.io/styleguide/javaguide.html).
+
 ### OWasp Security Scanning
 
 The [OWASP Dependency-Check Plugin](https://owasp.org/www-project-dependency-check/) can be run using the following command:

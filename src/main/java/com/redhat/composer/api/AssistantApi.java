@@ -13,6 +13,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * Assistant API for Chatting using assistants.
+ */
 @Path("/assistant/chat")
 @Authenticated
 public class AssistantApi {
@@ -23,11 +26,16 @@ public class AssistantApi {
   ChatBotService chatBotService;
 
 
+  /**
+   * Chat with an assistant.
+   * @param input the AssistantChatRequest
+   * @return the Multi of String
+   */
   @POST
   @Path("streaming")
   @Consumes(MediaType.APPLICATION_JSON)
   public Multi<String> chat(AssistantChatRequest input) {
-     return chatBotService.chat(input);
+    return chatBotService.chat(input);
   }
 
 }

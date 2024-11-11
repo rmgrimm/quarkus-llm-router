@@ -35,9 +35,11 @@ public interface MapperUtil {
   LLMRequest toRequest(LLMConnectionEntity entity);
 
   default BaseRetrieverConnectionEntity mapToBaseEntity(BaseRetrieverRequest request) {
-    if(request == null) {
+
+    if (request == null) {
       return null;
     }
+    
     switch (ContentRetrieverType.fromString(request.getContentRetrieverType())) {
       case ContentRetrieverType.WEAVIATE:
         return retrieverConnectionMapper.toEntity((WeaviateRequest) request);
@@ -48,10 +50,18 @@ public interface MapperUtil {
     }
   }
 
+  /**
+   * Maps a BaseRetrieverConnectionEntity to a BaseRetrieverRequest.
+
+   * @param entity the BaseRetrieverConnectionEntity to map
+   * @return the BaseRetrieverRequest
+   */
   default BaseRetrieverRequest mapToBaseRequest(BaseRetrieverConnectionEntity entity){
-    if(entity == null || entity.getContentRetrieverType() == null) {
+    
+    if (entity == null || entity.getContentRetrieverType() == null) {
       return null;
     }
+
     switch (entity.getContentRetrieverType()) {
       case ContentRetrieverType.WEAVIATE:
         return retrieverConnectionMapper.toRequest((WeaviateConnectionEntity) entity);
