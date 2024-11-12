@@ -22,9 +22,15 @@ jobs:
           java-version: '21'
           distribution: 'adopt'
 
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
       - name: Build and generate report
         run: |
-          mvn clean install
           mvn site
 
       - name: Publish report
@@ -32,3 +38,8 @@ jobs:
         with:
           name: Report
           path: target/site
+
+      - name: Push Checkstyle results
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: 'target/checkstyle-result.xml'
