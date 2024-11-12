@@ -2,6 +2,7 @@ package com.redhat.composer.util.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
@@ -30,8 +31,19 @@ public interface MapperUtil {
   /**
    * Maps a RetrieverRequest to a RetrieverConnectionEntity.
    */
-  @Mapping(target = "connectionEntity", source = "baseRetrieverRequest")
+  @Mappings({
+    @Mapping(target = "connectionEntity", source = "baseRetrieverRequest"),
+    @Mapping(target = "id", ignore = true)
+  })
   RetrieverConnectionEntity toEntity(RetrieverRequest request);
+
+  /**
+   * Maps a LLMRequest to a LLMConnectionEntity.
+   * @param request the LLMRequest to map
+   * @return the LLMConnectionEntity
+   */
+  @Mapping(target = "id", ignore = true)
+  LlmConnectionEntity toEntity(LLMRequest request);
 
 
   /**
@@ -41,14 +53,7 @@ public interface MapperUtil {
    */
   @Mapping(source = "connectionEntity", target = "baseRetrieverRequest")
   RetrieverRequest toRequest(RetrieverConnectionEntity entity);
-
-  /**
-   * Maps a LLMRequest to a LLMConnectionEntity.
-   * @param request the LLMRequest to map
-   * @return the LLMConnectionEntity
-   */
-  @Mapping(target = "id", ignore = true)
-  LlmConnectionEntity toEntity(LLMRequest request);
+  
   /**
    * Maps a LLMConnectionEntity to a LLMRequest.
    * @param entity the LLMConnectionEntity to map
@@ -83,7 +88,7 @@ public interface MapperUtil {
    * @param entity the BaseRetrieverConnectionEntity to map
    * @return the BaseRetrieverRequest
    */
-  default BaseRetrieverRequest mapToBaseRequest(BaseRetrieverConnectionEntity entity){
+  default BaseRetrieverRequest mapToBaseRequest(BaseRetrieverConnectionEntity entity) {
     
     if (entity == null || entity.getContentRetrieverType() == null) {
       return null;
@@ -99,5 +104,5 @@ public interface MapperUtil {
     }
   }
 
-  
+ 
 }

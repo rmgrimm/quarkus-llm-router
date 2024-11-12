@@ -91,7 +91,7 @@ public class AssistantInfoService {
    * @param request the LLMRequest
    * @return the LLMConnectionEntity
    */
-  public LlmConnectionEntity createLLMConnection(LLMRequest request) {
+  public LlmConnectionEntity createLlmConnection(LLMRequest request) {
     LlmConnectionEntity entity = new LlmConnectionEntity();
     entity.setName(request.getName());
     entity.setDescription(request.getDescription());
@@ -102,7 +102,11 @@ public class AssistantInfoService {
     return entity;
   }
 
-  public List<LlmConnectionEntity> getLLMConnections() {
+  /**
+   * Get all LLMConnections.
+   * @return a list of LlmConnectionEntity
+   */
+  public List<LlmConnectionEntity> getLlmConnections() {
     return LlmConnectionEntity.listAll();
   }
   

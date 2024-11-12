@@ -20,7 +20,7 @@ import jakarta.ws.rs.QueryParam;
  */
 @Path("/retriver")
 @Authenticated
-public class VectorRetriverAPI {
+public class VectorRetriverApi {
 
   @Inject
   RetrieveService retrieveService;
@@ -39,7 +39,7 @@ public class VectorRetriverAPI {
   public List<SourceResponse> retrieveSources(RetrieverRequest request, 
                                               @QueryParam("message") String message) {
     return retrieveService.retrieveContent(request, message).stream()
-                          .map(VectorRetriverAPI::toSourceResponse).toList();
+                          .map(VectorRetriverApi::toSourceResponse).toList();
   }
 
   /**

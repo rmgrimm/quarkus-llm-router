@@ -15,7 +15,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class OpenAiModel extends SynchronousBaseModel {
 
-  @ConfigProperty( name = "openai.default.url")
+  @ConfigProperty(name = "openai.default.url")
   private String mistralDefaultUrl;
 
   @ConfigProperty(name = "openai.default.apiKey")
@@ -28,6 +28,11 @@ public class OpenAiModel extends SynchronousBaseModel {
   private double openaiDefaultTemp;
 
  
+  /**
+   * Get the Chat Model.
+   * @param request the LLMRequest
+   * @return the ChatLanguageModel
+   */
   public ChatLanguageModel getChatModel(LLMRequest request) {
     OpenAiChatModelBuilder builder = OpenAiChatModel.builder();
     builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
@@ -38,16 +43,16 @@ public class OpenAiModel extends SynchronousBaseModel {
     // TODO: Add all the following to the request
     builder.temperature(openaiDefaultTemp);
       
-      // Model names can be derived from MistralAiChatModelName enum
-      // if (modelName != null) {
-      //   builder.modelName(modelName);
-      // }
-      // if (maxTokens != null) {
-      //   builder.maxTokens(maxTokens);
-      // }
-      // if (safePrompt != null) {
-      //   builder.safePrompt(safePrompt);
-      // }
+    // Model names can be derived from MistralAiChatModelName enum
+    // if (modelName != null) {
+    //   builder.modelName(modelName);
+    // }
+    // if (maxTokens != null) {
+    //   builder.maxTokens(maxTokens);
+    // }
+    // if (safePrompt != null) {
+    //   builder.safePrompt(safePrompt);
+    // }
     
     return builder.build();
   }

@@ -19,7 +19,7 @@
         <quarkus.langchain4j.version>0.21.0.CR1</quarkus.langchain4j.version>
         <org.mapstruct.version>1.6.2</org.mapstruct.version>
         <owasp-dependency-check-plugin.version>11.1.0</owasp-dependency-check-plugin.version>
-        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <checkstyle-maven-plugin.version>3.6.0</checkstyle-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -142,6 +142,24 @@
     </dependencies>
 
     <build>
+
+      <pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.6.0</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>10.20.1</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
@@ -194,7 +212,25 @@
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
-            </plugin>            
+            </plugin>    
+            
+            <!-- Checkstyle Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle-maven-plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>        
         </plugins>
     </build>
 
@@ -236,23 +272,6 @@
                             </suppressionFiles>
                         </configuration>
                     </plugin>
-                    <!-- Checkstyle Plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>${checkstyle-maven-plugin.version}</version>
-                        <configuration>
-                            <configLocation>checkstyle.xml</configLocation>
-                            <suppressionsLocation>suppressions.xml</suppressionsLocation>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -263,10 +282,10 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-checkstyle-plugin</artifactId>
-              <version>${maven-checkstyle-plugin.version}</version>
+              <version>${checkstyle-maven-plugin.version}</version>
               <configuration>
                   <configLocation>checkstyle.xml</configLocation>
-                  <suppressionsLocation>suppressions.xml</suppressionsLocation>
+                  <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
               </configuration>
           </plugin>
       </plugins>

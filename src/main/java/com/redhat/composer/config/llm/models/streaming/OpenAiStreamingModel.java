@@ -19,7 +19,7 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
 
   Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
 
-  @ConfigProperty( name = "openai.default.url")
+  @ConfigProperty(name = "openai.default.url")
   private String mistralDefaultUrl;
 
   @ConfigProperty(name = "openai.default.apiKey")
@@ -31,28 +31,35 @@ public class OpenAiStreamingModel extends StreamingBaseModel {
   @ConfigProperty(name = "openai.default.temp")
   private double openaiDefaultTemp;
 
- 
+  /**
+   * Get the Chat Model.
+   * @param request the LLMRequest
+   * @return the StreamingChatLanguageModel
+   */
   public StreamingChatLanguageModel getChatModel(LLMRequest request) {
-    log.info("Attempting to create OpenAI Streaming Chat Model at: " + request.getUrl() + " with model name: " + request.getModelName());
+
+    log.info("Attempting to create OpenAI Streaming Chat Model at: " + request.getUrl() 
+                                      + " with model name: " + request.getModelName());
+
     OpenAiStreamingChatModelBuilder builder = OpenAiStreamingChatModel.builder();
-      builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
-      builder.apiKey(request.getApiKey() == null ? mistralDefaultApiKey : request.getApiKey());
+    builder.baseUrl(request.getUrl() == null ? mistralDefaultUrl : request.getUrl());
+    builder.apiKey(request.getApiKey() == null ? mistralDefaultApiKey : request.getApiKey());
 
-      builder.modelName(request.getModelName() == null ? mistralDefaultModelName : request.getModelName());
+    builder.modelName(request.getModelName() == null ? mistralDefaultModelName : request.getModelName());
 
-      // TODO: Add all the following to the request
-      builder.temperature(openaiDefaultTemp);
-      
-      // TODO: Fill all this out
-      // if (modelName != null) {
-      //   builder.modelName(modelName);
-      // }
-      // if (maxTokens != null) {
-      //   builder.maxTokens(maxTokens);
-      // }
-      // if (safePrompt != null) {
-      //   builder.safePrompt(safePrompt);
-      // }
+    // TODO: Add all the following to the request
+    builder.temperature(openaiDefaultTemp);
+    
+    // TODO: Fill all this out
+    // if (modelName != null) {
+    //   builder.modelName(modelName);
+    // }
+    // if (maxTokens != null) {
+    //   builder.maxTokens(maxTokens);
+    // }
+    // if (safePrompt != null) {
+    //   builder.safePrompt(safePrompt);
+    // }
     
     return builder.build();
   }

@@ -20,7 +20,7 @@ public class BaseContentRetrieverClient {
    * @param request the RetrieverRequest
    * @return ContentRetriever
    */
-  public ContentRetriever getContentRetriever(RetrieverRequest request){
+  public ContentRetriever getContentRetriever(RetrieverRequest request) {
     throw new UnsupportedOperationException("Unimplemented method 'getContentRetriever'");
   }
 
@@ -29,7 +29,7 @@ public class BaseContentRetrieverClient {
    * @param embeddingType the String
    * @return EmbeddingModel
    */
-  protected EmbeddingModel getEmbeddingModel(String embeddingType){
+  protected EmbeddingModel getEmbeddingModel(String embeddingType) {
     return embeddingModelFactory.getEmbeddingModel(embeddingType);
   }
 

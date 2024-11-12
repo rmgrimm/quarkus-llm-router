@@ -6,7 +6,7 @@ import io.smallrye.mutiny.Multi;
 /**
  * Base AI Service Interface.
  */
-public interface BaseAiService{
+public interface BaseAiService {
 
   /**
    * Returns TokenStream given input.

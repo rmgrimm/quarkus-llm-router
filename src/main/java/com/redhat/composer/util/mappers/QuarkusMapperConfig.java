@@ -3,7 +3,7 @@ package com.redhat.composer.util.mappers;
 import org.mapstruct.MapperConfig;
 
 /**
- * QuarkusMapperConfig interface.
+ * Quarkus Mapper Config.
  */
 @MapperConfig(componentModel = "cdi")
 public interface QuarkusMapperConfig {

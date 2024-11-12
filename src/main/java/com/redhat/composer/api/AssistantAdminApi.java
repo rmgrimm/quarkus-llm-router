@@ -35,7 +35,7 @@ public class AssistantAdminApi {
   @POST
   @Path("llm")
   public LlmConnectionEntity createLlm(LLMRequest request) {
-    return assistantService.createLLMConnection(request);
+    return assistantService.createLlmConnection(request);
   }
 
   /**
@@ -45,7 +45,7 @@ public class AssistantAdminApi {
   @GET
   @Path("llm")
   public List<LlmConnectionEntity> getLlms() {
-    return assistantService.getLLMConnections();
+    return assistantService.getLlmConnections();
   }
 
   /**

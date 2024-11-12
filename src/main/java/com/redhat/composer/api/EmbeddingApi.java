@@ -32,6 +32,6 @@ public class EmbeddingApi {
   @Consumes(MediaType.TEXT_PLAIN)
   @Produces(MediaType.TEXT_PLAIN)
   public String embeddString(String text, @PathParam("embeddingType") String embeddingType) {
-    return embeddingService.embedding(text,embeddingType).toString();
+    return embeddingService.embedding(text, embeddingType).toString();
   }
 }

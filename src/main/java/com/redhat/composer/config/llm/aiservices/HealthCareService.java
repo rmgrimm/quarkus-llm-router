@@ -6,9 +6,8 @@ import dev.langchain4j.service.UserMessage;
 import io.smallrye.mutiny.Multi;
 
 /**
- * Mistral7BAiService
+ * Mistral7BAiService.
  */
-
 public interface HealthCareService extends BaseAiService {
 
   static final String systemMessage = """
