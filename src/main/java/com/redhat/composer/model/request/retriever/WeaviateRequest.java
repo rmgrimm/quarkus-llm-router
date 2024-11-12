@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
 
+@SuppressWarnings("all")
 public class WeaviateRequest extends BaseRetrieverRequest {
 
   // Key of the value containing the text used for retrieval and passed into the LLM

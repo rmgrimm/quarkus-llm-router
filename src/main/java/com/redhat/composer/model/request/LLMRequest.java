@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
 
+@SuppressWarnings("all")
 public class LLMRequest {
 
   private String name;

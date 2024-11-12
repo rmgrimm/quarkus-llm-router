@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.contentRetriever;
+package com.redhat.composer.config.retriever.contentretriever;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.neo4j.driver.AuthTokens;
@@ -17,19 +17,27 @@ import dev.langchain4j.store.graph.neo4j.Neo4jGraph;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
+/**
+ * Neo4j Content Retriever Client.
+ */
 @Singleton
 public class Neo4jContentRetrieverClient extends BaseContentRetrieverClient {
 
-  @ConfigProperty( name = "neo4j.default.url")
+  @ConfigProperty(name = "neo4j.default.url")
   private String neo4jUrl;
-  @ConfigProperty( name = "neo4j.default.username")
+  @ConfigProperty(name = "neo4j.default.username")
   private String neo4jUser;
-  @ConfigProperty( name = "neo4j.default.password")
+  @ConfigProperty(name = "neo4j.default.password")
   private String neo4jPassword;
 
   @Inject
   SynchronousModelFactory synchronousModelFactory;
 
+  /**
+   * Get the Content Retriever.
+   * @param request the RetrieverRequest
+   * @return the Content Retriever
+   */
   public ContentRetriever getContentRetriever(RetrieverRequest request) {
     Driver driver = GraphDatabase.driver(neo4jUrl, AuthTokens.basic(neo4jUser, neo4jPassword));
 

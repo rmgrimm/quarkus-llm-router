@@ -5,13 +5,14 @@ import dev.langchain4j.service.TokenStream;
 import dev.langchain4j.service.UserMessage;
 import io.smallrye.mutiny.Multi;
 
+
 /**
- * Mistral7BAiService
+ * Mistral7BAiService.
  */
+@SuppressWarnings("LineLengthCheck")
+public interface Mistral7bAiService extends BaseAiService {
 
-public interface Mistral7BAiService extends BaseAIService {
-
-  final static String systemMessage = """
+  static final String systemMessage = """
 You are a helpful, respectful and honest assistant answering questions about products from the company called Red Hat.
 You will be given a question you need to answer about this product.
 If a question is about a specific product you will be given the product name and version, and references to provide you with additional information.
@@ -21,9 +22,9 @@ Your answers should not include any harmful, unethical, racist, sexist, toxic, d
 Please ensure that your responses are socially unbiased and positive in nature.
 If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct.
 If you don't know the answer to a question, please don't share false information.
-""";
+          """;
 
-  final static String userMessage ="""
+  static final String userMessage = """
 <context>
 {context}
 </context>
@@ -32,16 +33,27 @@ If you don't know the answer to a question, please don't share false information
 Question: {input}
 <|eot_id|>
 <|start_header_id|>assistant<|end_header_id|>
-""";
+        """;
 
-    @SystemMessage(systemMessage)
-    @UserMessage(userMessage)
-    TokenStream chatToken(String context, String input);
+  /**
+   * Returns TokenStream given input.
+   * @param context Context information such as chat history and source information
+   * @param input User Message
+   * @return the TokenStream
+   */
+  @SystemMessage(systemMessage)
+  @UserMessage(userMessage)
+  TokenStream chatToken(String context, String input);
 
 
-
-    @SystemMessage(systemMessage)
-    @UserMessage(userMessage)
-    Multi<String> chatStream(String context, String input);
+  /**
+   * Returns a Multi of String given input.
+   * @param context Context information such as chat history and source information
+   * @param input User Message
+   * @return the Multi of String
+   */
+  @SystemMessage(systemMessage)
+  @UserMessage(userMessage)
+  Multi<String> chatStream(String context, String input);
   
 } 

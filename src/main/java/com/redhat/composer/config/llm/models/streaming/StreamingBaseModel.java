@@ -6,9 +6,17 @@ import com.redhat.composer.model.request.LLMRequest;
 
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 
+/**
+ * Streaming Base Model.
+ */
 public class StreamingBaseModel {
   
+  /**
+   * Get Chat Model.
+   * @param request the LLMRequest
+   * @return the StreamingChatLanguageModel
+   */
   public StreamingChatLanguageModel getChatModel(LLMRequest request) {  
-      throw new NotImplementedException("Not implemented");
+    throw new NotImplementedException("Not implemented");
   }
 }

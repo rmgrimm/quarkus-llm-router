@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+@SuppressWarnings("all")
 public class AssistantCreationRequest {
 
   String name;

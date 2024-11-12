@@ -16,11 +16,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 
 /**
- * Api For Testing Store Retrievers
+ * Api For Testing Store Retrievers.
  */
 @Path("/retriver")
 @Authenticated
-public class VectorRetriverAPI {
+public class VectorRetriverApi {
 
   @Inject
   RetrieveService retrieveService;
@@ -28,21 +28,25 @@ public class VectorRetriverAPI {
   @Inject
   MapperUtil mapperUtil;
 
+  /**
+   * Retrieve sources.
+   * @param request the RetrieverRequest
+   * @param message the message
+   * @return the list of SourceResponse
+   */
   @POST
   @Path("/sources")
-  public List<SourceResponse> retrieveSources(RetrieverRequest request, @QueryParam("message") String message) {
-      return retrieveService.retrieveContent(request, message).stream().map(VectorRetriverAPI::toSourceResponse).toList();
+  public List<SourceResponse> retrieveSources(RetrieverRequest request, 
+                                              @QueryParam("message") String message) {
+    return retrieveService.retrieveContent(request, message).stream()
+                          .map(VectorRetriverApi::toSourceResponse).toList();
   }
 
-  @POST
-  @Path("/sources/metadata")
-  public List<Map<String,Object>> retrieveSourceMetadata(RetrieverRequest request, @QueryParam("message") String message) {
-    return retrieveService.retrieveContent(request, message)
-        .stream()
-        .map(content -> content.textSegment().metadata().toMap()) // Accessing metadata inside textSegment
-        .toList();
-  }
-
+  /**
+   * Retrieve sources.
+   * @param content the Content returned from the retriever
+   * @return source info
+   */
   public static SourceResponse toSourceResponse(Content content) {
     SourceResponse response = new SourceResponse();
     response.setContent(content.textSegment().text());

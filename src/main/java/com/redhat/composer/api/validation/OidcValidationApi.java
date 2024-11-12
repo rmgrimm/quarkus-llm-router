@@ -1,6 +1,5 @@
 package com.redhat.composer.api.validation;
 
-import java.util.Map;
 import java.util.Set;
 
 import io.quarkus.security.Authenticated;
@@ -9,9 +8,12 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
+/**
+ * OIDCValidationAPI.
+ */
 @Path("/auth")
 @Authenticated
-public class OIDCValidationAPI {
+public class OidcValidationApi {
 
   @Inject
   SecurityIdentity securityIdentity;
@@ -26,7 +28,7 @@ public class OIDCValidationAPI {
 
   @GET
   @Path("roles")
-  public Set getRoles() {
+  public Set<String> getRoles() {
     return securityIdentity.getRoles();
   }
 

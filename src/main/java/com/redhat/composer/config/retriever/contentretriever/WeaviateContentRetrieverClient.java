@@ -1,9 +1,9 @@
-package com.redhat.composer.config.retriever.contentRetriever;
+package com.redhat.composer.config.retriever.contentretriever;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.config.retriever.contentRetriever.custom.WeaviateEmbeddingStoreCustom;
+import com.redhat.composer.config.retriever.contentretriever.custom.WeaviateEmbeddingStoreCustom;
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
 
@@ -12,15 +12,18 @@ import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import jakarta.inject.Singleton;
 
+/**
+ * Weaviate Content Retriever Client.
+ */
 @Singleton
 public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
 
   Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
 
-  @ConfigProperty( name = "weaviate.default.scheme")
+  @ConfigProperty(name = "weaviate.default.scheme")
   private String weaviateScheme;
 
-  @ConfigProperty( name = "weaviate.default.host")
+  @ConfigProperty(name = "weaviate.default.host")
   private String weaviateHost;
 
   @ConfigProperty(name = "weaviate.default.apiKey")
@@ -32,9 +35,14 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
   @ConfigProperty(name = "weaviate.default.textKey")
   private String weaviateTextKey;
 
+  /**
+   * Get the Content Retriever.
+   * @param request the RetrieverRequest
+   * @return the Content Retriever
+   */
   public ContentRetriever getContentRetriever(RetrieverRequest request) {
     WeaviateRequest weaviateRequest = (WeaviateRequest) request.getBaseRetrieverRequest();
-    if(weaviateRequest == null) {
+    if (weaviateRequest == null) {
       weaviateRequest = new WeaviateRequest();
     }
     String scheme = weaviateRequest.getScheme() != null ? weaviateRequest.getScheme() : weaviateScheme;
@@ -47,16 +55,16 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
     log.info("Attempting to connect to Weaviate at " + scheme + "://" + host + " with index " + index);
 
     WeaviateEmbeddingStoreCustom store = WeaviateEmbeddingStoreCustom.builder()
-        .scheme(scheme)
-        .host(host)
-        .apiKey(apiKey)
-        .metadataFieldName("")
-        // .metadataFieldName(null)
-        .metadataKeys(weaviateRequest.getMetadataFields())
-        .objectClass(index)
-        .avoidDups(true)
-        .textFieldName(textKey)
-      .build();
+          .scheme(scheme)
+          .host(host)
+          .apiKey(apiKey)
+          .metadataFieldName("")
+          // .metadataFieldName(null)
+          .metadataKeys(weaviateRequest.getMetadataFields())
+          .objectClass(index)
+          .avoidDups(true)
+          .textFieldName(textKey)
+        .build();
       
 
     // Retrieve the embedding model
@@ -66,9 +74,9 @@ public class WeaviateContentRetrieverClient extends BaseContentRetrieverClient {
 
     // Create the content retriever
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
-      .embeddingStore(store)
-      .embeddingModel(embeddingModel)
-      .build();
+          .embeddingStore(store)
+          .embeddingModel(embeddingModel)
+        .build();
       
     return contentRetriever;
   }

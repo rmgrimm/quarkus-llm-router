@@ -1,14 +1,19 @@
-package com.redhat.composer.config.retriever.embeddingModel;
+package com.redhat.composer.config.retriever.embeddingmodel;
 
 import java.util.concurrent.Executor;
 
 import dev.langchain4j.model.embedding.onnx.AbstractInProcessEmbeddingModel;
 import dev.langchain4j.model.embedding.onnx.OnnxBertBiEncoder;
 
-
+/**
+ * Base Local Embedding Model Client.
+ */
 public class BaseLocalEmbeddingModelClient extends AbstractInProcessEmbeddingModel {
 
-  // Add explicit constructor
+  /**
+   * Constructor.
+   * @param executor the Executor
+   */
   public BaseLocalEmbeddingModelClient(Executor executor) {
     super(executor);
   }

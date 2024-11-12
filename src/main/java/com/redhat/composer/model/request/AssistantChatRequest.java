@@ -1,8 +1,10 @@
 package com.redhat.composer.model.request;
+
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+@SuppressWarnings("all")
 public class AssistantChatRequest{
 
   private String message = "";

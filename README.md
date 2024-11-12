@@ -1,15 +1,29 @@
 # Quarkus LLM Routing Service
 
-Quarkus Service that allows for the routing to different RAG sources and LLMs
+Quarkus Service that allows for the routing to different RAG sources and LLMs.
 
 ## Architecture
 
 ![](.assets/Routing%20Service.drawio.png)
 
-### Chat Bot Message Architecture
+### Components
 
-The `assistant/chat/streaming` will be the main use endpoint. In which we specify the a message to our chat and the name of an assistant.
+* **Assistants** - An assistant is the top level component that describes how all the components below are connected.
+* **Content Retrievers**- Content Retrievers is the RAG(Retrieval-Augmented Generation) connection info used to retrieve data that will be included in the message to the LLM
+  * **Embedding Models**- These are generally the model used to convert data that is stored/retrieved from a vector database, which is a common pattern for RAG Datasources 
+* **LLMs**- The connection information to the Runtime Serving Environment hosting the Large Language Model
+* **AI Services** - The component orchestrating the calls to the Content Retrievers and LLMs
 
+> [!NOTE]
+> Currently working on finding a less restrictive way than `AI Services` in which to perform the orchestration of our calls
+
+## Chat Bot Endpoints
+
+### Assistant
+
+The `assistant/chat/streaming` is the primary entrypoint into the application. This used to specify an assistant
+
+**Example Message**
 ```json
 {
   "message": "User Message",
@@ -17,95 +31,183 @@ The `assistant/chat/streaming` will be the main use endpoint. In which we specif
 }
 ```
 
-Available Assistants by default:
-- default_ocp
-- default_rhel
-- default_rho_2025_faq
-- default_ansible
-- default_rhoai
+#### Default Assistants
 
+The following assistants are loaded into the application by default using liquibase and [changeLog File](src/main/resources/db/changeLog.yml):
 
-The `/chatbot/chat/stream` allows for connections to be specified directly through the UI 
+| Assistant Name            | Description                                      |
+|---------------------------|--------------------------------------------------|
+| default_ocp               | Default assistant for OpenShift Container Platform (OCP) |
+| default_rhel              | Default assistant for Red Hat Enterprise Linux (RHEL)    |
+| default_rho_2025_faq      | Default assistant for RHO 2025 FAQ                          |
+| default_ansible           | Default assistant for Ansible automation                   |
+| default_rhoai             | Default assistant for RHO AI                               |
+| default_assistant         | General default assistant                                  |
+
+### Direct Chat
+
+The `/chatbot/chat/stream` endpoint allows for connections to be specified directly, and can be used for initial testing of connections.
 
 ```json
-  {
-  message: "User Message",
-  context: "Message history",
-  retriverRequest: {
-          index: "weveIndex",
-          scheme: "weveSchem",
-          host: "weavHost.com",
-          apiKey: "xxx",
-          }
-  modelRequest {
-          modelType: "servingRuntime",
-          apiKey: "xxxxx",
-          modelName: "mistral-instruct",
-        }
+{
+  "message": "User Message",
+  "context": "Message history",
+  "retriverRequest": {
+    "index": "weveIndex",
+    "scheme": "weveScheme",
+    "host": "weavHost.com",
+    "apiKey": "xxx"
+  },
+  "modelRequest": {
+    "modelType": "servingRuntime",
+    "apiKey": "xxxxx",
+    "modelName": "mistral-instruct"
   }
+}
 ```
 
-## Assistant Workflow
+## Local Development
 
-The main workflow will be through assistants. These will be created by administrators and once created can be accessed by users.
-
-```json
-  {
-    message: "User Message",
-    context: "Message history",
-    assistantName: "Name of Assistant",
-    assistantId: "Id of Assistant" // Ignored in name is provided
-  }
-```
-
-
-> Important: This is assuming access to a default weaviate db with the correct indexes populated.
-
-Test Curl Command:
-```json
-curl -X 'POST'   'http://localhost:8080/assistant/chat/streaming' -H 'Content-Type: application/json'   -d '{
-  "message": "What is this product?",
-  "assistantName": "default_rhoai"
-}' -N
-
-```
-
-## Install Locally
-
-To install locally run:
+Use the following commands to run locally:
 
 ```sh
 mvn clean install
-mvn quarkus:dev
+# Setting the profile to to use the `application-local.properties` as explained below
+mvn quarkus:dev -Dquarkus.profile=local
 ```
 
-Need to login to Openshift using `oc login` and run the following command to port forward the vector DB
+> [!TIP]
+> Recommended that properties below are set in the `application-local.properties` file which is get ignored. This will prevent any accidental check-ins of secret information
+
+### LLM Connection
+
+The following properties should be set in order to connect to properly connect to your LLM running on an OpenAI instance:
+
+```properties
+openai.default.url=<RUNTIME_URL>/v1
+openai.default.apiKey=<API_KEY> # If Required
+openai.default.modelName=<MODEL_NAME>
+```
+
+> [!TIP]
+> The `default_assistant` can be used without having to configure a rag data source
+
+### Weaviate Setup
+
+The default assistants all assume a connection to a Weaviate DB for RAG purposes.
+
+A locally hosted Weaviate can be deployed and used, more information found [here(TBD)](documentation/WEAVIATE_SETUP.md)
+
+If a remote instance of weaviate exist on an OpenShift cluster and has the correct indexes, that instance can be used with the following port forward commands:
 
 ```sh
-oc port-forward service/weaviate-vector-db  8086:8080 50051:50051
+oc project $PROJECT
+oc port-forward service/weaviate-vector-db 8086:8080 50051:50051
 ```
 
-## Test Locally
+Once forwarded the following values can be changed
 
-The following curl command should return a streaming output answering based on the default Rag/LLM settings (set in the properties file)
+```properties
+weaviate.default.scheme=http
+weaviate.default.host=localhost:8086
+weaviate.default.apiKey=<API KEY>
+```
 
-`curl -X POST -H "Content-Type: application/json" -d '{"message":"What is a route?"}' http://localhost:8080/chatbot/chat/streaming -N`
-
-> Note: There are endpoint for testing each of the specific components
+> If using the App of Apps repo the API key is retrieved from autogenerated secret `weaviate-api-key-secret`
 
 ## Embedding Model
 
-IMPORTANT: The embedding modes is to large to check into our repo. So you need to download from the following link and put it in `resources/embedding/nomic`.
+Currently the supported models are added to the resources folder and [loaded directly](src/main/java/com/redhat/composer/config/retriever/embeddingmodel/NomicLocalEmbeddingModelClient.java). We would like to move this logic to pull these models using maven as seen [here](https://docs.langchain4j.dev/category/embedding-models)
 
-https://drive.google.com/drive/folders/1jZe0cEw8p_E-fghd6IFPjwiabDNAhtp7?usp=drive_link
+> [!IMPORTANT]
+> The embedding model is too large to check into our repo.
+> Download it from [huggingface](https://huggingface.co/nomic-ai/nomic-embed-text-v1/resolve/main/onnx/model_quantized.onnx?download=true) or [here](https://drive.google.com/drive/folders/1jZe0cEw8p_E-fghd6IFPjwiabDNAhtp7?usp=drive_link) if internal to RH.
+> Then add it to `resources/embedding/nomic` with the name `model.onnx`, it should be gitignored if done correctly.
 
-We need to figure out a better way to handel this in the future (or put this on github)
+## Local Curl
 
-## Code Standards
+If the LLM Connection has been setup correctly the following curl command should stream a response from your LLM
 
-### OWasp Security Scanning
+```sh
+curl -X 'POST'   'http://localhost:8080/assistant/chat/streaming' -H 'Content-Type: application/json'   -d '{
+  "message": "What is this product?",
+  "assistantName": "default_assistant"
+}' -N
+```
 
-The [OWASP Dependency-Check Plugin](https://owasp.org/www-project-dependency-check/) can be run using the following command:
+The `assistantName` can be swapped out for other assistants inside of the table above, but the other assistants will required a connection to a weaviate db with the correct indexes. The App Of Apps repository contains a [validation script](https://github.com/redhat-composer-ai/appOfApps/blob/main/data-ingestion/weaviate/validation.sh) that can be used to show which indexes currently exist.
+
+## Admin Flow
+
+Information about the creation/updating of Assistants, ContentRetrievers, and LLMs can be found in the [admin flow docs](documentation/ADMIN_WORKFLOW.MD)
+
+## Contributing
+
+We welcome contributions from the community\! Here's how you can get involved:
+
+**1. Find an Issue:**
+
+  * Check the [issue tracker](https://github.com/redhat-composer-ai/quarkus-llm-router/issues) or [jira board](https://issues.redhat.com/secure/RapidBoard.jspa?projectKey=REDSAIA&rapidView=20236) for open issues that interest you.
+  * If you find a bug or have a feature request, please open a new issue with a clear description.
+
+> [!NOTE]
+> Currently this project is primarlly tracking using Red Hat's internal Jira.
+
+**2. Fork the Repository:**
+
+  * Fork this repository to your own GitHub account.
+
+**3. Create a Branch:**
+
+  * Create a new branch for your changes. Use a descriptive name that reflects the issue or feature you're working on (e.g., `fix-issue-123` or `add-new-feature`).
+
+**4. Make Changes:**
+
+  * Make your desired changes to the codebase.
+  * Follow the existing code style and conventions.
+  * Write clear commit messages that explain the purpose of your changes.
+
+**5. Test Your Changes:**
+
+  * Thoroughly test your changes to ensure they work as expected.
+  * If there are existing tests, make sure they all pass. Consider adding new tests to cover your changes.
+
+**6. Code Style and Formatting:**
+
+  * Ensure your code adheres to the project's established code style guidelines.
+  * This project uses Checkstyle's automated code formatting tools. Your code must pass these checks before it can be merged.
+
+
+> [!TIP]
+> Checkstyle can be run locally using `mvn site` which creates a report page under `target/site`.
+>
+> It is also recommended that you use a checkstyle tool in your IDE such as this [VS Code Plugin](https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-checkstyle) in order order to adhear to guidelines as you code.
+
+**7. Open a Pull Request:**
+
+  * Push your branch to your forked repository.
+  * Open a pull request to the main repository.
+  * In the pull request description, clearly explain the changes you've made and reference the related issue (if applicable).
+  * Validate that all automate checks are passing
+
+**8. Review Process:**
+
+  * Your pull request will be reviewed by the project maintainers.
+    * Feel free to ping in our general slack channel asking for approval/assistants
+  * Be prepared to address any feedback or questions.
+  * Once your code has passed all automated checks and received at least one approval from a maintainer, it will be merged.
+
+
+**Important Notes:**
+
+  * All code contributions must pass automated code scanning checks before they can be merged.
+  * At least one approval from a maintainer is required for all pull requests.
+
+**Thank you for your contributions\!**
+
+### Security Scanning
+
+The [OWASP Dependency-Check Plugin](https://owasp.org/www-project-dependency-check/) not required to pass but is included, we ask that the scanner be run if any changes are made to the dependencies.
 
 ```sh
 mvn validate -P security-scanner

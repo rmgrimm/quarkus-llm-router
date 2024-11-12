@@ -6,8 +6,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
+/**
+ * LlmConnectionEntity
+ */
+// CHECKSTYLE 
+@SuppressWarnings("all")
 @MongoEntity(collection = "llm_connection")
-public class LLMConnectionEntity extends BaseEntity {
+public class LlmConnectionEntity extends BaseEntity {
 
   
   private String name;
@@ -20,10 +25,10 @@ public class LLMConnectionEntity extends BaseEntity {
   private String modelName;
 
 
-  public LLMConnectionEntity() {
+  public LlmConnectionEntity() {
   }
 
-  public LLMConnectionEntity(String name, String description, String modelType, String url, String apiKey, String modelName) {
+  public LlmConnectionEntity(String name, String description, String modelType, String url, String apiKey, String modelName) {
     this.name = name;
     this.description = description;
     this.modelType = modelType;
@@ -80,32 +85,32 @@ public class LLMConnectionEntity extends BaseEntity {
     this.modelName = modelName;
   }
 
-  public LLMConnectionEntity name(String name) {
+  public LlmConnectionEntity name(String name) {
     setName(name);
     return this;
   }
 
-  public LLMConnectionEntity description(String description) {
+  public LlmConnectionEntity description(String description) {
     setDescription(description);
     return this;
   }
 
-  public LLMConnectionEntity modelType(String modelType) {
+  public LlmConnectionEntity modelType(String modelType) {
     setModelType(modelType);
     return this;
   }
 
-  public LLMConnectionEntity url(String url) {
+  public LlmConnectionEntity url(String url) {
     setUrl(url);
     return this;
   }
 
-  public LLMConnectionEntity apiKey(String apiKey) {
+  public LlmConnectionEntity apiKey(String apiKey) {
     setApiKey(apiKey);
     return this;
   }
 
-  public LLMConnectionEntity modelName(String modelName) {
+  public LlmConnectionEntity modelName(String modelName) {
     setModelName(modelName);
     return this;
   }

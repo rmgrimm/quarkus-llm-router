@@ -1,4 +1,4 @@
-package com.redhat.composer.config.retriever.contentRetriever.custom;
+package com.redhat.composer.config.retriever.contentretriever.custom;
 
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
@@ -37,6 +37,7 @@ import static java.util.stream.Collectors.toList;
  * Represents the <a href="https://weaviate.io/">Weaviate</a> vector database.
  * Current implementation assumes the cosine distance metric is used.
  */
+@SuppressWarnings("all")
 public class WeaviateEmbeddingStoreCustom implements EmbeddingStore<TextSegment> {
 
     private static final String ADDITIONALS = "_additional";

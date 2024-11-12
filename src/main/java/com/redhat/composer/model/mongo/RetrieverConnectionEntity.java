@@ -4,11 +4,14 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import com.redhat.composer.model.mongo.contentRetrieverEntites.BaseRetrieverConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.BaseRetrieverConnectionEntity;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
 
-
+/**
+ * RetrieverConnectionEntity
+ */
+@SuppressWarnings("all")
 @MongoEntity(collection = "retriever_connection")
 public class RetrieverConnectionEntity extends BaseEntity {
 

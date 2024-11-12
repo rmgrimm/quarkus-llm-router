@@ -22,12 +22,12 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 /**
- * Api For Testing Embedding
+ * Api For Testing the LLM.
  */
 @Path("/llm")
-public class LlmAPI {
+public class LlmApi {
 
-  Logger log = Logger.getLogger(LlmAPI.class);
+  Logger log = Logger.getLogger(LlmApi.class);
 
   @Inject
   SynchronousModelFactory synchronousModelFactory;
@@ -35,6 +35,12 @@ public class LlmAPI {
   @Inject
   StreamingModelFactory streamingModelFactory;
 
+  /**
+   * Generate a response for a message.
+   * @param request the LLMRequest
+   * @param message message from LLM
+   * @return the response
+   */
   @POST
   @Path("/generate")
   @Authenticated
@@ -48,6 +54,12 @@ public class LlmAPI {
     return llm.generate(message);
   }
 
+  /**
+   * Generate a response for a message.
+   * @param request the LLMRequest
+   * @param message streaming message from LLM
+   * @return the response
+   */
   @POST
   @Path("/generate/streaming")
   public Multi<String> streamingRequest(LLMRequest request, @QueryParam("message") String message) {
@@ -63,27 +75,6 @@ public class LlmAPI {
     Multi<String> response = assistant.chat(message);
     return response;
   }
-
-
-  // Don't think we want to use this.
-  @POST
-  @Produces(MediaType.SERVER_SENT_EVENTS)
-  @RestStreamElementType("text/plain")
-  @Path("/generate/streaming/sse")
-  public Multi<String> streamingRequestSSE(LLMRequest request, @QueryParam("message") String message) {
-    log.info("Generating response for message: " + message);
-    if (request == null) {
-      request = new LLMRequest();
-    }
-    StreamingBaseModel model = streamingModelFactory.getModel(request.getModelType());
-
-    StreamingChatLanguageModel llm = model.getChatModel(request);
-    Assistant assistant = AiServices.create(Assistant.class, llm);
-
-    Multi<String> response = assistant.chat(message);
-    return response;
-  }
-  
 
   interface Assistant {
     Multi<String> chat(String message);
