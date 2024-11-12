@@ -22,3 +22,6 @@ Backend includes the ability to dynamically create Assistants, Rag Connections, 
   "description": "Example of a rag connection"
 }
 ```
+
+> [!NOTE]
+> This document is a work in progress.
