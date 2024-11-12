@@ -31,15 +31,15 @@ jobs:
 
       - name: Build and generate report
         run: |
-          mvn site
+          mvn -B site
 
+      - name: Push Checkstyle results
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: '**/checkstyle-result.xml'
+        
       - name: Publish report
         uses: actions/upload-artifact@v4
         with:
           name: Report
           path: target/site
-
-      - name: Push Checkstyle results
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: 'target/checkstyle-result.xml'
