@@ -10,6 +10,7 @@ on:
 
 jobs:
   publish_report:
+    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
