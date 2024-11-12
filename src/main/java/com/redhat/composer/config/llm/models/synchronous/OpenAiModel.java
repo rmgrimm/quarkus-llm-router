@@ -9,9 +9,11 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel.OpenAiChatModelBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
 
-
+/**
+ * OpenAI Model.
+ */
 @ApplicationScoped
-public class OpenAIModel extends SynchronousBaseModel {
+public class OpenAiModel extends SynchronousBaseModel {
 
   @ConfigProperty( name = "openai.default.url")
   private String mistralDefaultUrl;

@@ -2,8 +2,8 @@ package com.redhat.composer.services;
 
 import java.util.List;
 
-import com.redhat.composer.config.retriever.contentRetriever.BaseContentRetrieverClient;
-import com.redhat.composer.config.retriever.contentRetriever.ContentRetrieverClientFactory;
+import com.redhat.composer.config.retriever.contentretriever.BaseContentRetrieverClient;
+import com.redhat.composer.config.retriever.contentretriever.ContentRetrieverClientFactory;
 import com.redhat.composer.model.enums.ContentRetrieverType;
 import com.redhat.composer.model.request.RetrieverRequest;
 

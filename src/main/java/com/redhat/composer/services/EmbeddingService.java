@@ -2,7 +2,7 @@ package com.redhat.composer.services;
 
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.config.retriever.embeddingModel.EmbeddingModelFactory;
+import com.redhat.composer.config.retriever.embeddingmodel.EmbeddingModelFactory;
 
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -16,11 +16,15 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class EmbeddingService {
 
-  private static final Logger logger = Logger.getLogger(EmbeddingService.class);
-
   @Inject
   EmbeddingModelFactory embeddingTemplateFactory;
 
+  /**
+   * Embeds the given text using the specified embedding model.
+   * @param text the text to embed
+   * @param embeddingType the type of embedding model to use
+   * @return the embedded text
+   */
   public Embedding embedding(String text, String embeddingType) {
     EmbeddingModel embedding = embeddingTemplateFactory.getEmbeddingModel(embeddingType);
     Response<Embedding> response = embedding.embed(text);

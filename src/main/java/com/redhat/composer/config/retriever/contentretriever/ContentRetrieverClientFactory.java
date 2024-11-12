@@ -1,10 +1,13 @@
-package com.redhat.composer.config.retriever.contentRetriever;
+package com.redhat.composer.config.retriever.contentretriever;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+/**
+ * Factory for Content Retriever Clients.
+ */
 @ApplicationScoped
 public class ContentRetrieverClientFactory {
 
@@ -14,10 +17,16 @@ public class ContentRetrieverClientFactory {
   @Inject
   Neo4jContentRetrieverClient neo4jContentRetrieverClient;
   
-  final static ContentRetrieverType DEFAULT_CONTENT_RETRIEVER = ContentRetrieverType.WEAVIATE;
 
+  static final ContentRetrieverType DEFAULT_CONTENT_RETRIEVER = ContentRetrieverType.WEAVIATE;
+
+  /**
+   * Get the Content Retriever Client.
+   * @param contentRetrieverType the ContentRetrieverType
+   * @return the Content Retriever Client
+   */
   public BaseContentRetrieverClient getContentRetrieverClient(ContentRetrieverType contentRetrieverType) {
-    if(contentRetrieverType == null) {
+    if (contentRetrieverType == null) {
       contentRetrieverType = DEFAULT_CONTENT_RETRIEVER;
     }
     

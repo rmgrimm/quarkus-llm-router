@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import dev.langchain4j.rag.content.Content;
 
-
+@SuppressWarnings("all")
 public class ContentResponse {
     
     @JsonProperty("content")

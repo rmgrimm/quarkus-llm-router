@@ -5,12 +5,13 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import com.redhat.composer.model.mongo.AssistantEntity;
-import com.redhat.composer.model.mongo.LLMConnectionEntity;
+import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 
+@SuppressWarnings("all")
 public class AssistantResponse extends AssistantEntity {
 
-  private LLMConnectionEntity llmConnection;
+  private LlmConnectionEntity llmConnection;
   private RetrieverConnectionEntity retrieverConnection;
 
 
@@ -18,16 +19,16 @@ public class AssistantResponse extends AssistantEntity {
   }
 
 
-  public AssistantResponse(LLMConnectionEntity llmConnection, RetrieverConnectionEntity retrieverConnection) {
+  public AssistantResponse(LlmConnectionEntity llmConnection, RetrieverConnectionEntity retrieverConnection) {
     this.llmConnection = llmConnection;
     this.retrieverConnection = retrieverConnection;
   }
 
-  public LLMConnectionEntity getLlmConnection() {
+  public LlmConnectionEntity getLlmConnection() {
     return this.llmConnection;
   }
 
-  public void setLlmConnection(LLMConnectionEntity llmConnection) {
+  public void setLlmConnection(LlmConnectionEntity llmConnection) {
     this.llmConnection = llmConnection;
   }
 
@@ -39,7 +40,7 @@ public class AssistantResponse extends AssistantEntity {
     this.retrieverConnection = retrieverConnection;
   }
 
-  public AssistantResponse llmConnection(LLMConnectionEntity llmConnection) {
+  public AssistantResponse llmConnection(LlmConnectionEntity llmConnection) {
     setLlmConnection(llmConnection);
     return this;
   }

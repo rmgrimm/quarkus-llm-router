@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
+/**
+ * BaseEntity.
+ */
 public class BaseEntity extends PanacheMongoEntity {
 
   

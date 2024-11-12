@@ -3,7 +3,7 @@ package com.redhat.composer.config.llm.models.streaming;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import com.redhat.composer.config.retriever.contentRetriever.WeaviateContentRetrieverClient;
+import com.redhat.composer.config.retriever.contentretriever.WeaviateContentRetrieverClient;
 import com.redhat.composer.model.request.LLMRequest;
 
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
@@ -11,9 +11,11 @@ import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder;
 import jakarta.enterprise.context.ApplicationScoped;
 
-
+/**
+ * OpenAI Streaming Model.
+ */
 @ApplicationScoped
-public class OpenAIStreamingModel extends StreamingBaseModel {
+public class OpenAiStreamingModel extends StreamingBaseModel {
 
   Logger log = Logger.getLogger(WeaviateContentRetrieverClient.class);
 

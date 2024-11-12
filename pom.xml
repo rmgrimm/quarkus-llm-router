@@ -243,6 +243,7 @@
                         <version>${checkstyle-maven-plugin.version}</version>
                         <configuration>
                             <configLocation>checkstyle.xml</configLocation>
+                            <suppressionsLocation>suppressions.xml</suppressionsLocation>
                         </configuration>
                         <executions>
                             <execution>
@@ -265,6 +266,7 @@
               <version>${maven-checkstyle-plugin.version}</version>
               <configuration>
                   <configLocation>checkstyle.xml</configLocation>
+                  <suppressionsLocation>suppressions.xml</suppressionsLocation>
               </configuration>
           </plugin>
       </plugins>

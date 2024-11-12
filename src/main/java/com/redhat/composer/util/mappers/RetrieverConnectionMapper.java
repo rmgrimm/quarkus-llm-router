@@ -3,8 +3,8 @@ package com.redhat.composer.util.mappers;
 import org.mapstruct.Mapper;
 
 import com.redhat.composer.model.enums.ContentRetrieverType;
-import com.redhat.composer.model.mongo.contentRetrieverEntites.Neo4JEntity;
-import com.redhat.composer.model.mongo.contentRetrieverEntites.WeaviateConnectionEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.Neo4jEntity;
+import com.redhat.composer.model.mongo.contentretrieverentites.WeaviateConnectionEntity;
 import com.redhat.composer.model.request.retriever.Neo4JRequest;
 import com.redhat.composer.model.request.retriever.WeaviateRequest;
 
@@ -28,7 +28,7 @@ public interface RetrieverConnectionMapper {
    * @param request the Neo4JEntity to map
    * @return the Neo4JRequest
    */
-  Neo4JEntity toEntity(Neo4JRequest request);
+  Neo4jEntity toEntity(Neo4JRequest request);
 
   /**
    * Maps a WeaviateConnectionEntity to a WeaviateRequest.
@@ -44,7 +44,7 @@ public interface RetrieverConnectionMapper {
    * @param entity the Neo4JEntity to map
    * @return the Neo4JRequest
    */
-  Neo4JRequest toRequest(Neo4JEntity entity);
+  Neo4JRequest toRequest(Neo4jEntity entity);
 
   /**
    * Maps a ContentRetrieverType to a String.
@@ -56,6 +56,11 @@ public interface RetrieverConnectionMapper {
     return contentRetrieverType.getType();
   }
 
+  /**
+   * Maps a String to a ContentRetrieverType.
+   * @param value the String to map
+   * @return the ContentRetrieverType
+   */
   default ContentRetrieverType toContentRetrieverType(String value) {
     return ContentRetrieverType.fromString(value);
   }

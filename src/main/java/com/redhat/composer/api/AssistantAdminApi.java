@@ -3,7 +3,7 @@ package com.redhat.composer.api;
 import java.util.List;
 
 import com.redhat.composer.model.mongo.AssistantEntity;
-import com.redhat.composer.model.mongo.LLMConnectionEntity;
+import com.redhat.composer.model.mongo.LlmConnectionEntity;
 import com.redhat.composer.model.mongo.RetrieverConnectionEntity;
 import com.redhat.composer.model.request.AssistantCreationRequest;
 import com.redhat.composer.model.request.LLMRequest;
@@ -34,7 +34,7 @@ public class AssistantAdminApi {
    */
   @POST
   @Path("llm")
-  public LLMConnectionEntity createLlm(LLMRequest request) {
+  public LlmConnectionEntity createLlm(LLMRequest request) {
     return assistantService.createLLMConnection(request);
   }
 
@@ -44,7 +44,7 @@ public class AssistantAdminApi {
    */
   @GET
   @Path("llm")
-  public List<LLMConnectionEntity> getLlms() {
+  public List<LlmConnectionEntity> getLlms() {
     return assistantService.getLLMConnections();
   }
 

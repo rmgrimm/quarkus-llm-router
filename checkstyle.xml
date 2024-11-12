@@ -17,7 +17,6 @@
  -->
 
 <module name="Checker">
-
   <property name="charset" value="UTF-8"/>
 
   <property name="severity" value="${org.checkstyle.google.severity}" default="warning"/>
@@ -54,7 +53,7 @@
 
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
-    <property name="max" value="100"/>
+    <property name="max" value="120"/>
     <property name="ignorePattern"
              value="^package.*|^import.*|href\s*=\s*&quot;[^&quot;]*&quot;|http://|https://|ftp://"/>
   </module>

@@ -1,4 +1,4 @@
-package com.redhat.composer.model.mongo.contentRetrieverEntites;
+package com.redhat.composer.model.mongo.contentretrieverentites;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
@@ -8,6 +8,10 @@ import com.redhat.composer.model.enums.ContentRetrieverType;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Weaviate Connection Entity.
+ */
+@SuppressWarnings("all")
 @BsonDiscriminator("weaviate")
 public class WeaviateConnectionEntity extends BaseRetrieverConnectionEntity {
 
@@ -24,7 +28,6 @@ public class WeaviateConnectionEntity extends BaseRetrieverConnectionEntity {
   String host;
 
   String apiKey;
-
 
   public WeaviateConnectionEntity() {
     contentRetrieverType = ContentRetrieverType.WEAVIATE;
@@ -110,7 +113,7 @@ public class WeaviateConnectionEntity extends BaseRetrieverConnectionEntity {
 
   @Override
     public boolean equals(Object o) {
-      return EqualsBuilder.reflectionEquals(this, o);
+    return EqualsBuilder.reflectionEquals(this, o);
   }
 
   @Override

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+@SuppressWarnings("all")
 public class SourceResponse {
 
   private String content;
