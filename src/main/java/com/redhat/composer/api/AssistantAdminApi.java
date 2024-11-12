@@ -18,7 +18,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 
 /**
- * Admin API for Creating and Managing Assistants
+ * Admin API for Creating and Managing Assistants.
  */
 @Path("/admin/assistant")
 @Authenticated
