@@ -1,40 +1,34 @@
 package com.redhat.composer.api;
 
-import org.jboss.logging.Logger;
-
-import com.redhat.composer.model.request.ChatBotRequest;
-import com.redhat.composer.services.ChatBotService;
-
-import io.quarkus.security.Authenticated;
+import com.redhat.composer.api.model.ChatBotRequestMultipart;
 import io.smallrye.mutiny.Multi;
-import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.Produces;
 
 /**
- * ChatBotAPI for Chatting using ChatBots.
+ * OpenAPI-generator doesn't properly support multipart right now, so
+ * this is a manual interface until OpenAPI-generator has better multipart
+ * support.
  */
 @Path("/chatbot/chat")
-@Authenticated
-public class ChatBotApi {
-
-  Logger log = Logger.getLogger(ChatBotApi.class);
-
-  @Inject
-  ChatBotService chatBotService;
+public interface ChatBotApi {
 
   /**
    * Chat with a ChatBot.
-   * @param input ChatBotRequest infromation
+   *
+   * @param requestMultipart ChatBotRequest and uploaded fil
    * @return Streamed response
    */
   @POST
-  @Path("streaming")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public Multi<String> chat(ChatBotRequest input) {
-    return chatBotService.chat(input);
-  }
+  @Path("/streaming")
+  @Consumes({"multipart/form-data"})
+  @Produces({"application/json"})
+  Multi<String> chat(
+      @Valid @BeanParam ChatBotRequestMultipart requestMultipart
+  );
 
 }

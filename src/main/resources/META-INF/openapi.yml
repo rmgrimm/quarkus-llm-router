@@ -1,0 +1,213 @@
+---
+openapi: 3.0.3
+info:
+  title: router API
+  version: 1.0.0-SNAPSHOT
+tags:
+  - name: Chat Bot
+  - name: OIDC Validation
+paths:
+  /auth/principal:
+    get:
+      operationId: get-principal
+      summary: Get Security Principal
+      tags:
+        - OIDC Validation
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+        - SecurityScheme: [ ]
+  /auth/roles:
+    get:
+      operationId: get-roles
+      summary: Get Security Roles
+      tags:
+        - OIDC Validation
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+        - SecurityScheme: [ ]
+  /chatbot/chat/streaming:
+    post:
+      operationId: chat
+      tags:
+        - Chat Bot
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              title: ChatBotRequestMultipart
+              type: object
+              additionalProperties: false
+              required:
+                - chatBotRequest
+              properties:
+                chatBotRequest:
+                  $ref: '#/components/schemas/ChatBotRequest'
+                file:
+                  type: array
+                  minItems: 0
+                  maxItems: 2
+                  items:
+                    format: binary
+                    type: string
+                  x-field-extra-annotation: |+
+                    @org.jboss.resteasy.reactive.RestForm
+                    @org.jboss.resteasy.reactive.PartType(jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM)
+            encoding:
+              chatBotRequest:
+                contentType: application/json
+              file:
+                contentType: application/octet-stream
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      security:
+        - SecurityScheme: [ ]
+components:
+  schemas:
+    BaseRetrieverRequest:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/WeaviateRequest'
+        - $ref: '#/components/schemas/Neo4JRequest'
+      required:
+        - contentRetrieverType
+      properties:
+        contentRetrieverType:
+          $ref: '#/components/schemas/ContentRetrieverType'
+      discriminator:
+        propertyName: contentRetrieverType
+        mapping:
+          weaviate: '#/components/schemas/WeaviateRequest'
+          neo4j: '#/components/schemas/Neo4JRequest'
+    ContentRetrieverType:
+      enum:
+        - weaviate
+        - neo4j
+      type: string
+    WeaviateRequest:
+      type: object
+      x-discriminator-value: weaviate
+      required:
+        - contentRetrieverType
+      allOf:
+        - $ref: '#/components/schemas/BaseRetrieverRequest'
+        - properties:
+            textKey:
+              type: string
+            metadataFields:
+              type: array
+              items:
+                type: string
+            index:
+              type: string
+            scheme:
+              type: string
+            host:
+              type: string
+            apiKey:
+              type: string
+    Neo4JRequest:
+      type: object
+      x-discriminator-value: neo4j
+      required:
+        - contentRetrieverType
+      allOf:
+        - $ref: '#/components/schemas/BaseRetrieverRequest'
+        - properties: {}
+    ChatBotRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        context:
+          type: string
+        retrieverRequest:
+          $ref: "#/components/schemas/RetrieverRequest"
+        modelRequest:
+          $ref: "#/components/schemas/LLMRequest"
+      x-field-extra-annotation: |+
+        @org.jboss.resteasy.reactive.RestForm
+        @org.jboss.resteasy.reactive.PartType(jakarta.ws.rs.core.MediaType.APPLICATION_JSON)
+    Date:
+      format: date
+      type: string
+      example: 2022-03-10
+    LLMRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        modelType:
+          type: string
+        url:
+          type: string
+        apiKey:
+          type: string
+        modelName:
+          type: string
+    ObjectId:
+      type: object
+      properties:
+        timestamp:
+          format: int32
+          type: integer
+        counter:
+          format: int32
+          type: integer
+        randomValue1:
+          format: int32
+          type: integer
+        randomValue2:
+          type: integer
+        date:
+          $ref: "#/components/schemas/Date"
+    RetrieverRequest:
+      type: object
+      properties:
+        baseRetrieverRequest:
+          $ref: "#/components/schemas/BaseRetrieverRequest"
+        embeddingType:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+  securitySchemes:
+    SecurityScheme:
+      type: openIdConnect
+      description: Authentication
