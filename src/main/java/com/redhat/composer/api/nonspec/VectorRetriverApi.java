@@ -1,7 +1,6 @@
-package com.redhat.composer.api;
+package com.redhat.composer.api.nonspec;
 
 import java.util.List;
-import java.util.Map;
 
 import com.redhat.composer.model.request.RetrieverRequest;
 import com.redhat.composer.model.response.SourceResponse;
