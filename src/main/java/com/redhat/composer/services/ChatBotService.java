@@ -116,25 +116,21 @@ public class ChatBotService {
     BaseAiService aiService = builder.build();
 
     try {
-      List<ContentResponse> contentSources = new ArrayList<ContentResponse>();
       String systemMessage = request.getSystemMessage() == null ? defaultSystemMessage : request.getSystemMessage();
       Multi<String> multi = Multi.createFrom().emitter(em -> {
         aiService.chatToken(request.getContext(), request.getMessage(), systemMessage)
         .onNext(em::emit)
         .onRetrieved(sources -> {
-          contentSources.add(new ContentResponse(sources));
+          try {
+            em.emit("START_SOURCES_STRING\n");
+            em.emit(objectMapper.writeValueAsString(new ContentResponse(sources)));
+            em.emit("\nEND_SOURCES_STRING\n");
+          } catch (JsonProcessingException e) {
+            log.error("Sources not processable: %e", e);
+          }
         })
         .onError(em::fail)
         .onComplete(response -> {
-          em.emit("START_SOURCES_STRING\n");
-          contentSources.forEach(source -> {
-            try {
-              em.emit(objectMapper.writeValueAsString(source));
-            } catch (JsonProcessingException e) {
-              log.error("Source not processable: %e", e);
-            }
-          });
-          em.emit("\nEND_SOURCES_STRING\n");
           em.complete();
         })
             .start();
