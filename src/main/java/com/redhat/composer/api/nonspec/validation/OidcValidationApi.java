@@ -1,18 +1,16 @@
 package com.redhat.composer.api.nonspec.validation;
 
-import java.util.Set;
-
-import io.quarkus.security.Authenticated;
 import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
+import java.util.Set;
+
 /**
  * OIDCValidationAPI.
  */
 @Path("/auth")
-@Authenticated
 public class OidcValidationApi {
 
   @Inject

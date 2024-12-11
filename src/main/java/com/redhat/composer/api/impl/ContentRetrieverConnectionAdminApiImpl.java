@@ -6,7 +6,6 @@ import com.redhat.composer.api.model.CreateRetrieverConnectionRequest;
 import com.redhat.composer.api.model.RetrieverConnection;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 /**
  * Admin API for Creating and Managing Assistants.
  */
-@Authenticated
 public class ContentRetrieverConnectionAdminApiImpl implements ContentRetrieverConnectionAdminApi {
 
   @Inject

@@ -7,7 +7,6 @@ import com.redhat.composer.api.model.AssistantChatRequestMultipart;
 import com.redhat.composer.services.ChatBotService;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.data.document.parser.apache.tika.ApacheTikaDocumentParser;
-import io.quarkus.security.Authenticated;
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import org.apache.tika.metadata.Metadata;
@@ -15,7 +14,6 @@ import org.apache.tika.metadata.Metadata;
 /**
  * Assistant API for Chatting using assistants.
  */
-@Authenticated
 public class AssistantMultipartApiImpl implements AssistantMultipartApi {
 
   @Inject

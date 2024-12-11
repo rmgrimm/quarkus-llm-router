@@ -1,28 +1,24 @@
 package com.redhat.composer.api.nonspec;
 
-import org.jboss.logging.Logger;
-
 import com.redhat.composer.config.llm.models.streaming.StreamingBaseModel;
 import com.redhat.composer.config.llm.models.streaming.StreamingModelFactory;
 import com.redhat.composer.config.llm.models.synchronous.SynchronousBaseModel;
 import com.redhat.composer.config.llm.models.synchronous.SynchronousModelFactory;
 import com.redhat.composer.model.request.LLMRequest;
-
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.service.AiServices;
-import io.quarkus.security.Authenticated;
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
+import org.jboss.logging.Logger;
 
 /**
  * Api For Testing the LLM.
  */
 @Path("/llm")
-@Authenticated
 public class LlmApi {
 
   Logger log = Logger.getLogger(LlmApi.class);
