@@ -338,7 +338,7 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            text/plain:
               schema:
                 type: array
                 items:
@@ -365,7 +365,7 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            text/plain:
               schema:
                 type: array
                 items:

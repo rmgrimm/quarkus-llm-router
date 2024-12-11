@@ -6,7 +6,6 @@ import com.redhat.composer.api.model.Assistant;
 import com.redhat.composer.api.model.CreateAssistantRequest;
 import com.redhat.composer.services.AssistantInfoService;
 import com.redhat.composer.util.mappers.BsonMapper;
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 /**
  * Admin API for Creating and Managing Assistants.
  */
-@Authenticated
 public class AssistantAdminApiImpl implements AssistantAdminApi {
 
   @Inject

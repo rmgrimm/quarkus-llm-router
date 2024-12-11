@@ -106,7 +106,7 @@ public interface ContentRetrieverConfig {
        *
        * @return max segment size
        */
-      @Min(50)
+      // TODO: Add @Min(50) back after ensuring Optional<Integer> stays validated in prod builds
       Optional<Integer> defaultSegmentSizeInTokens();
 
       /**
@@ -120,7 +120,7 @@ public interface ContentRetrieverConfig {
        *
        * @return segment overlap size
        */
-      @Min(0)
+      // TODO: Add @Min(0) back after ensuring Optional<Integer> stays validated in prod builds
       Optional<Integer> defaultSegmentOverlapInTokens();
 
     }

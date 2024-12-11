@@ -5,9 +5,9 @@ import io.smallrye.mutiny.Multi;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 /**
@@ -25,7 +25,7 @@ public interface AssistantMultipartApi {
    */
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.TEXT_PLAIN)
   Multi<String> assistantChatStreamingMp(
       @Valid @BeanParam AssistantChatRequestMultipart multipartRequest
   );
